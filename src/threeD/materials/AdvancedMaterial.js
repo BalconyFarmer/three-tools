@@ -38,5 +38,6 @@ export class AdvancedMaterial {
             self.app.scene.add(mesh)
         })
 
+
     }
 }

@@ -10,8 +10,6 @@ export class DigitalCity3D {
     }
 
     run() {
-        const self = this
-
         this.app3D = new App3D(this.dom)
         this.app3D.init()
 

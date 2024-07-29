@@ -4,8 +4,8 @@ import HomePage from '@/components/HomePage'
 import ExperimentArea from "../components/ExperimentArea/ExperimentArea";
 import DigitalCity from "../components/DigitalCity/DigitalCity";
 import MenuD3 from "../components/Menu3d/MenuD3";
-import MenuD31 from "../components/Menu3d2/Menu3d2"
-import RotateImg from "../components/Menu3d2/RotateImg";
+import MenuD31 from "../components/Menu110/Menu3d2"
+import RotateImg from "../components/Menu110/RotateImg";
 
 Vue.use(Router)
 
