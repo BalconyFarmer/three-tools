@@ -1,46 +1,45 @@
 import * as THREE from "three";
+import { SceneInitializer } from "./SceneInitializer"; // 导入 SceneInitializer 类
 
-import {SceneCamera} from './sceneBasic/SceneCamera';
-import {RaycasterHelper} from "@/threeD/interaction/RaycasterHelper";
-import {ImportObjs} from "@/threeD/loaders/ImportObjs";
-import {ImportFBX} from '@/threeD/animation/ImportFBX';
-import {EventCube} from '@/threeD/interaction/EventCube';
-import {JudgeFace3} from '@/threeD/basicMath/JudgeFace3';
-import {FlowPipes} from '@/threeD/animation/FlowPipe/FlowPipes';
-import {Helper} from '@/threeD/helpers/Helper';
-import {Controls} from '@/threeD/sceneBasic/Controls';
-import {ExportImport} from '@/threeD/loaders/ExportImport';
-import {Car} from '@/threeD/PROJECTS/game/Car';
-import {PhysiSimulate} from '@/threeD/PROJECTS/game/PhysiSimulate';
-import {MakeBufferGeometryMesh} from './basicMesh/MakeBufferGeometryMesh';
-import {MakeBufferGeometryCube} from './basicMesh/MakeBufferGeometryCube';
-import {MakeGeometryMesh} from './basicMesh/MakeGeometryMesh';
-import {MakeMeshPoint} from './basicMesh/MakeMeshPoint';
-import {MakeMeshLine} from './basicMesh/MakeMeshLine';
-import {TransformMesh} from './interaction/TransformMesh';
-import {TakePoint} from './interaction/TakePoint';
-import {Animation} from './animation/Animation';
-import {Sound} from './interaction/Sound';
-import {ArrowLine} from './helpers/representationalviewer/ArrowLine';
-import {Matrix4Practice} from './basicMath/Matrix4Practice';
-import {EulerPractice} from './basicMath/EulerPractice';
-import {QuaternionPractice} from './basicMath/QuaternionPractice';
-import {OutlineShineEffect} from './interaction/OutlineShineEffect';
-import {PlayVideo} from './materials/PlayVideo';
-import {TextureCanvasAnimation} from './materials/TextureCanvasAnimation';
-import {BasicMaterials} from '@/threeD/materials/BasicMaterials';
-import {OfflineRender} from './undefinedNow/OfflineRender';
-import {GUIApp} from './GUI/GUIApp';
-import {ShadowLight} from './undefinedNow/ShadowLight';
-import {LittleWindow} from './helpers/representationalviewer/LittleWindow';
-import {MultipleElements} from './undefinedNow/MultipleElements';
-import {AdvancedMaterial} from './materials/AdvancedMaterial';
-import {SkyBox} from './sceneBasic/SkyBox';
-import {WaterPlane} from './materials/WaterPlane';
-import {LightningStrike} from './LightningStrike';
-import {BloomOnly} from "./Bloom/BloomOnly";
-import {Grass} from "./Grass";
-import {Cloud} from "./Cloud";
+import { RaycasterHelper } from "@/threeD/interaction/RaycasterHelper";
+import { ImportObjs } from "@/threeD/loaders/ImportObjs";
+import { ImportFBX } from '@/threeD/animation/ImportFBX';
+import { EventCube } from '@/threeD/interaction/EventCube';
+import { JudgeFace3 } from '@/threeD/basicMath/JudgeFace3';
+import { FlowPipes } from '@/threeD/animation/FlowPipe/FlowPipes';
+import { Helper } from '@/threeD/helpers/Helper';
+import { Controls } from '@/threeD/sceneBasic/Controls';
+import { ExportImport } from '@/threeD/loaders/ExportImport';
+import { Car } from '@/threeD/PROJECTS/game/Car';
+import { PhysiSimulate } from '@/threeD/PROJECTS/game/PhysiSimulate';
+import { MakeBufferGeometryMesh } from './basicMesh/MakeBufferGeometryMesh';
+import { MakeBufferGeometryCube } from './basicMesh/MakeBufferGeometryCube';
+import { MakeGeometryMesh } from './basicMesh/MakeGeometryMesh';
+import { MakeMeshPoint } from './basicMesh/MakeMeshPoint';
+import { MakeMeshLine } from './basicMesh/MakeMeshLine';
+import { TransformMesh } from './interaction/TransformMesh';
+import { TakePoint } from './interaction/TakePoint';
+import { Animation } from './animation/Animation';
+import { Sound } from './interaction/Sound';
+import { ArrowLine } from './helpers/representationalviewer/ArrowLine';
+import { Matrix4Practice } from './basicMath/Matrix4Practice';
+import { EulerPractice } from './basicMath/EulerPractice';
+import { QuaternionPractice } from './basicMath/QuaternionPractice';
+import { OutlineShineEffect } from './interaction/OutlineShineEffect';
+import { PlayVideo } from './materials/PlayVideo';
+import { TextureCanvasAnimation } from './materials/TextureCanvasAnimation';
+import { BasicMaterials } from '@/threeD/materials/BasicMaterials';
+import { GUIApp } from './GUI/GUIApp';
+import { ShadowLight } from './undefinedNow/ShadowLight';
+import { LittleWindow } from './helpers/representationalviewer/LittleWindow';
+import { MultipleElements } from './undefinedNow/MultipleElements';
+import { AdvancedMaterial } from './materials/AdvancedMaterial';
+import { SkyBox } from './sceneBasic/SkyBox';
+import { WaterPlane } from './materials/WaterPlane';
+import { LightningStrike } from './LightningStrike';
+import { BloomOnly } from "./Bloom/BloomOnly";
+import { Grass } from "./Grass";
+import { Cloud } from "./Cloud";
 
 export default class App3D {
     constructor(dom) {
@@ -57,6 +56,8 @@ export default class App3D {
     }
 
     initializeComponents() {
+        this.controls = new Controls(this);
+        this.helper = new Helper(this);
         this.raycasterHelper = new RaycasterHelper(this);
         this.objLoaders = new ImportObjs(this);
         this.FBXLoader = new ImportFBX(this);
@@ -101,26 +102,18 @@ export default class App3D {
      * 初始化3D基础场景
      */
     init() {
+        const sceneInitializer = new SceneInitializer(this, this.dom);
+        sceneInitializer.init();
 
-        this.scene = new THREE.Scene();
-        this.scene.autoUpdate = true;
-        this.scene.background = new THREE.Color(0x1E1E1E);
-        this.sceneCamera = new SceneCamera(this);
 
-        this.initLight(1);
-        this.initRenderer();
-        this.controls = new Controls(this);
-        this.helper = new Helper(this);
         this.startLoop();
 
         this.initializeComponents();
-
     }
 
     addCustomCube() {
         this.makeBufferGeometryCube = new MakeBufferGeometryCube(this);
     }
-
 
     getSceneChildren() {
         const result = [];
@@ -128,7 +121,9 @@ export default class App3D {
         const recurrenceScene = (aim, origin) => {
             origin.forEach(item => {
                 const data = {
-                    title: item.cname || item.type, key: item.uuid, children: item.children.length > 0 ? [] : null
+                    title: item.cname || item.type,
+                    key: item.uuid,
+                    children: item.children.length > 0 ? [] : null
                 };
                 aim.push(data);
                 if (item.children.length > 0) {
@@ -161,51 +156,6 @@ export default class App3D {
         }
     }
 
-
-    /**
-     * 初始化光源
-     */
-    initLight(intensity) {
-        const distance = 500;
-
-        // 环境光
-        const ambient = new THREE.AmbientLight(0x444444, intensity);
-        this.scene.add(ambient);
-
-        // 点光源位置数组
-        const pointLightPositions = [{x: distance, y: 0, z: 0}, {x: -distance, y: 0, z: 0}, {
-            x: 0,
-            y: distance,
-            z: 0
-        }, {x: 0, y: -distance, z: 0}, {x: 0, y: 0, z: distance}, {x: 0, y: 0, z: -distance}];
-
-        // 创建并添加点光源
-        pointLightPositions.forEach((pos, index) => {
-            const pointLight = new THREE.PointLight(0xffffff, intensity);
-            pointLight.position.set(pos.x, pos.y, pos.z);
-            pointLight.cname = `点光源${index}`;
-            this.scene.add(pointLight);
-        });
-
-        // 方向光及辅助器
-        const directionalLight = new THREE.DirectionalLight(0xFFFFFF, intensity);
-        directionalLight.position.set(distance, distance, distance);
-        directionalLight.cname = '方向光源';
-        this.scene.add(directionalLight);
-    }
-
-
-    /**
-     * 初始化Renderer
-     */
-    initRenderer() {
-        const {width, height} = this.dom;
-        this.renderer = new THREE.WebGLRenderer({canvas: this.dom, antialias: true});
-        this.renderer.setSize(width, height);
-        this.renderer.setClearColor(0x000000, 0.1);
-        this.renderer.shadowMap.enabled = true;
-    }
-
     /**
      * loop
      */
@@ -215,7 +165,7 @@ export default class App3D {
                 requestAnimationFrame(run);
                 this.onRender();
                 this.renderQueue.forEach(item => item());
-                this.eventBus.dispatchEvent({type: 'updateLeftTreeData', message: 'message!'});
+                this.eventBus.dispatchEvent({ type: 'updateLeftTreeData', message: 'message!' });
             }
         };
 
@@ -237,7 +187,7 @@ export default class App3D {
      * 动态调整屏幕大小
      */
     windowRelise() {
-        const {innerWidth: width, innerHeight: height} = window;
+        const { innerWidth: width, innerHeight: height } = window;
         this.dom.width = width;
         this.dom.height = height;
         this.renderer.setSize(width, height);
