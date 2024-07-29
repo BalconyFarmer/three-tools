@@ -62,10 +62,23 @@ export class SceneInitializer {
         this.app.renderer = this.renderer;
     }
 
+    startLoop() {
+        const run = () => {
+            if (this.app.loopFlag) {
+                requestAnimationFrame(run);
+                this.app.onRender();
+                this.app.renderQueue.forEach(item => item());
+            }
+        };
+
+        run();
+    }
+
     init() {
         this.initScene();
         this.initCamera();
         this.initLight();
         this.initRenderer();
+        this.startLoop();
     }
 }

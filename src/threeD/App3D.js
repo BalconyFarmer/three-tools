@@ -105,9 +105,6 @@ export default class App3D {
         const sceneInitializer = new SceneInitializer(this, this.dom);
         sceneInitializer.init();
 
-
-        this.startLoop();
-
         this.initializeComponents();
     }
 
@@ -154,22 +151,6 @@ export default class App3D {
         if (this.boxHelper) {
             this.scene.remove(this.boxHelper);
         }
-    }
-
-    /**
-     * loop
-     */
-    startLoop() {
-        const run = () => {
-            if (this.loopFlag) {
-                requestAnimationFrame(run);
-                this.onRender();
-                this.renderQueue.forEach(item => item());
-                this.eventBus.dispatchEvent({ type: 'updateLeftTreeData', message: 'message!' });
-            }
-        };
-
-        run();
     }
 
     removeFromQueue(name) {
