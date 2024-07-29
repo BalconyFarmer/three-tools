@@ -22,7 +22,6 @@ export class DigitalCity3D {
         this.addFloorGround();
         this.addShadow();
 
-        window.addEventListener('resize', this.app3D.windowRelise.bind(this.app3D), false);
     }
 
     startTools() {

@@ -15,6 +15,9 @@ export class SceneManager {
         this.app.removeFromQueue = this.removeFromQueue.bind(this);
         this.app.windowRelise = this.windowRelise.bind(this);
         this.app.destroy = this.destroy.bind(this);
+
+        window.addEventListener('resize', this.app.windowRelise, false);
+
     }
 
     getSceneChildren() {
@@ -23,9 +26,7 @@ export class SceneManager {
         const recurrenceScene = (aim, origin) => {
             origin.forEach(item => {
                 const data = {
-                    title: item.cname || item.type,
-                    key: item.uuid,
-                    children: item.children.length > 0 ? [] : null
+                    title: item.cname || item.type, key: item.uuid, children: item.children.length > 0 ? [] : null
                 };
                 aim.push(data);
                 if (item.children.length > 0) {
@@ -66,7 +67,7 @@ export class SceneManager {
      * 动态调整屏幕大小
      */
     windowRelise() {
-        const { innerWidth: width, innerHeight: height } = window;
+        const {innerWidth: width, innerHeight: height} = window;
         this.dom.width = width;
         this.dom.height = height;
         this.renderer.setSize(width, height);

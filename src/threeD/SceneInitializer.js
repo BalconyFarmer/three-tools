@@ -77,5 +77,7 @@ export class SceneInitializer {
         this.initLight();
         this.initRenderer();
         this.startLoop();
+
+
     }
 }
