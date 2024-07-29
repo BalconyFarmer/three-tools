@@ -1,6 +1,7 @@
 import App3D from "../../threeD/App3D";
 import * as THREE from 'three';
-import { serverAdress } from '@/config';
+import {serverAdress} from '@/config';
+import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader";
 
 export class DigitalCity3D {
     constructor(dom) {
@@ -17,10 +18,8 @@ export class DigitalCity3D {
         this.addCar();
         this.addGUI();
         this.addFloorGround();
-
-        // this.loadOBJ();
         this.addShadow();
-
+        this.loadOBJ();
     }
 
     resetInit() {
@@ -39,14 +38,7 @@ export class DigitalCity3D {
     }
 
     loadOBJ() {
-        const objPaths = [
-            '/3Dstatic/model3D/digitalCity/0底座/总成.obj',
-            '/3Dstatic/model3D/digitalCity/1路面/总成.obj',
-            '/3Dstatic/model3D/digitalCity/2路灯/总成.obj',
-            '/3Dstatic/model3D/digitalCity/3楼房/总成.obj',
-            '/3Dstatic/model3D/digitalCity/4隧道/总成.obj',
-            '/3Dstatic/model3D/digitalCity/5山体/总成.obj',
-        ];
+        const objPaths = ['/3Dstatic/model3D/digitalCity/0底座/总成.obj', '/3Dstatic/model3D/digitalCity/1路面/总成.obj', '/3Dstatic/model3D/digitalCity/2路灯/总成.obj', '/3Dstatic/model3D/digitalCity/3楼房/总成.obj', '/3Dstatic/model3D/digitalCity/4隧道/总成.obj', '/3Dstatic/model3D/digitalCity/5山体/总成.obj',];
 
         objPaths.forEach((path, index) => {
             this.app3D.objLoaders.loadOBJ(`${serverAdress}${path}`).loadOver((mesh) => {
@@ -71,12 +63,7 @@ export class DigitalCity3D {
     }
 
     addFlowPipe() {
-        const points = [
-            new THREE.Vector3(-109, 93, 28),
-            new THREE.Vector3(-48, 95, 42),
-            new THREE.Vector3(-35, 96, 106),
-            new THREE.Vector3(17, 88, 79)
-        ];
+        const points = [new THREE.Vector3(-109, 93, 28), new THREE.Vector3(-48, 95, 42), new THREE.Vector3(-35, 96, 106), new THREE.Vector3(17, 88, 79)];
         this.app3D.flowPipe.create(points);
     }
 
@@ -107,25 +94,9 @@ export class DigitalCity3D {
         });
     }
 
-    addCar() {
-        const mesh = `${serverAdress}/3Dstatic/model3D/警车/警车/obj/policeCar.obj`;
-        const times = [0, 5, 10];
-        const positions = [-164, 87, -0.9, -71, 87, 6.9, -71, 87, 109];
-
-        const rotationTimes = [0, 0.1, 5, 5.5];
-        const rotations = [
-            new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), 0),
-            new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2),
-            new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2),
-            new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), 0)
-        ];
-
-        const rotationPositions = rotations.reduce((acc, q) => acc.concat([q.x, q.y, q.z, q.w]), []);
-        this.app3D.animation.start(mesh, times, positions, rotationTimes, rotationPositions);
-    }
 
     addFloorGround() {
-        const material = new THREE.MeshBasicMaterial({ color: 0xE7E9E4, dithering: true });
+        const material = new THREE.MeshBasicMaterial({color: 0xE7E9E4, dithering: true});
         const plane = new THREE.PlaneGeometry(800, 800);  // 修改此行
         const mesh = new THREE.Mesh(plane, material);
         mesh.position.set(0, 0, 0);
@@ -134,6 +105,36 @@ export class DigitalCity3D {
         this.app3D.scene.add(mesh);
     }
 
+    addCar() {
+
+        // 加载警车模型
+        const loader = new OBJLoader();
+        let car;
+        const scene = this.app3D.scene;
+
+        loader.load(`${serverAdress}/3Dstatic/model3D/警车/警车/obj/policeCar.obj`, (obj) => {
+            car = obj;
+            car.position.set(-164, 87, -0.9);
+            car.rotation.y = Math.PI / 2; // 设置初始旋转角度为90度
+            scene.add(car);
+
+            // GSAP 动画控制
+            const timeline = gsap.timeline({repeat: -1, repeatDelay: 1});
+
+            // 小车从第一个点移动到第二个点
+            timeline.to(car.position, {x: -71, y: 87, z: 6.9, duration: 2});
+
+            // 小车转弯
+            timeline.to(car.rotation, {y: Math.PI / 2, duration: 1});
+
+            // 小车从第二个点移动到第三个点
+            timeline.to(car.position, {x: -71, y: 87, z: 109, duration: 2});
+
+            // 返回初始位置和初始旋转
+            timeline.to(car.position, {x: -164, y: 87, z: -0.9, duration: 2});
+            timeline.to(car.rotation, {y: 0, duration: 1});
+        });
+    }
 
     addShadow() {
         this.app3D.renderer.shadowMapType = THREE.PCFSoftShadowMap;

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { serverAdress } from '@/config';
+import {serverAdress} from '@/config';
 
 export class FlowPipe {
     constructor(app) {
@@ -41,13 +41,9 @@ export class FlowPipe {
 
         // 添加流动效果的动画
         this.app.renderer.setAnimationLoop(() => {
-            this.animate();
+            if (this.texture) {
+                this.texture.offset.x -= 0.1;
+            }
         });
-    }
-
-    animate() {
-        if (this.texture) {
-            this.texture.offset.x -= 0.1;
-        }
     }
 }
