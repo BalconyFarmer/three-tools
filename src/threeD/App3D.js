@@ -39,6 +39,7 @@ import {LightningStrike} from './LightningStrike';
 import {BloomOnly} from "./Bloom/BloomOnly";
 import {Grass} from "./Grass";
 import {Cloud} from "./Cloud";
+import {SceneManager} from "@/threeD/SceneManager";
 
 export default class App3D {
     constructor(dom) {
@@ -103,6 +104,7 @@ export default class App3D {
     init() {
         const sceneInitializer = new SceneInitializer(this, this.dom);
         sceneInitializer.init();
+        new SceneManager(this);
         this.initializeComponents();
     }
 

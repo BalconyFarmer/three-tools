@@ -58,23 +58,16 @@ export class SceneInitializer {
     }
 
     startLoop() {
+        const onRender = () => {
+            this.renderer.render(this.scene, this.camera); //执行渲染操作
+        }
+
         const run = () => {
-            if (this.app.loopFlag) {
-                requestAnimationFrame(run);
-                this.onRender();
-                this.app.renderQueue.forEach(item => item());
-                this.app.eventBus.dispatchEvent({type: 'updateLeftTreeData', message: 'message!'});
-            }
+            requestAnimationFrame(run);
+            onRender();
         };
 
         run();
-    }
-
-    /**
-     * 更新相机
-     */
-    onRender() {
-        this.renderer.render(this.scene, this.camera); //执行渲染操作
     }
 
 
@@ -84,73 +77,5 @@ export class SceneInitializer {
         this.initLight();
         this.initRenderer();
         this.startLoop();
-        this.app.getMeshByUUIDDispose = this.getMeshByUUIDDispose
-        this.app.getSceneChildren = this.getSceneChildren
-        this.app.getMeshByUUID = this.getMeshByUUID
-        this.app.removeFromQueue = this.removeFromQueue
-        this.app.windowRelise = this.windowRelise
-        this.app.destroy = this.destroy
-    }
-
-
-    /**
-     * 动态调整屏幕大小
-     */
-    windowRelise() {
-        const {innerWidth: width, innerHeight: height} = window;
-        this.dom.width = width;
-        this.dom.height = height;
-        this.renderer.setSize(width, height);
-        this.camera.aspect = width / height;
-        this.camera.updateProjectionMatrix();
-    }
-
-    destroy() {
-        this.loopFlag = false;
-        this.transformMesh.removeEvent();
-    }
-
-
-    removeFromQueue(name) {
-        this.renderQueue = this.renderQueue.filter(item => item.name !== name);
-    }
-
-    getMeshByUUIDDispose() {
-        if (this.boxHelper) {
-            this.scene.remove(this.boxHelper);
-        }
-    }
-
-    getSceneChildren() {
-        const result = [];
-
-        const recurrenceScene = (aim, origin) => {
-            origin.forEach(item => {
-                const data = {
-                    title: item.cname || item.type, key: item.uuid, children: item.children.length > 0 ? [] : null
-                };
-                aim.push(data);
-                if (item.children.length > 0) {
-                    recurrenceScene(data.children, item.children);
-                }
-            });
-        };
-
-        recurrenceScene(result, this.scene.children);
-        return result;
-    }
-
-    getMeshByUUID(uuid) {
-        const mesh = this.scene.getObjectByProperty('uuid', uuid[0]);
-        if (mesh) {
-            console.log('根据UUID获取', mesh);
-            if (this.boxHelper) {
-                this.scene.remove(this.boxHelper);
-            }
-            this.boxHelper = new THREE.BoxHelper(mesh, 0xffff00);
-            this.boxHelper.cname = '选择网格辅助';
-            this.scene.add(this.boxHelper);
-            return mesh;
-        }
     }
 }
