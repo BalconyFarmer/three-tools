@@ -13,6 +13,8 @@ import VuexPersistence from "vuex-persist";
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueAMap from "vue-amap";
+import "@/style/reset.scss"
+import '@/style/elementPlusCustom.scss';
 
 Vue.config.productionTip = false
 Vue.use(Antd)

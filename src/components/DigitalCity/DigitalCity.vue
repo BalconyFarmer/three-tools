@@ -1,28 +1,14 @@
 <!--https://www.youtube.com/watch?v=2JY8Fl5kkC0-->
 <template>
     <div>
-        <div id="loading" v-if="loadingFlag">
-            <div id="fontContainer">
-                <div>
-                    <p class="pText0">Kun Ming</p>
-                    <vue-loading type="bars" color="#d9544e" :size="{ width: '150px', height: '150px' }"></vue-loading>
-                </div>
-                <div>
-                    <p class="pText">The Digital City</p>
-                </div>
-            </div>
-        </div>
         <canvas id="digitalCityCanvasID"></canvas>
-
         <div id="blocker">
-
             <div id="instructions">
                 <span style="font-size:40px">点击切换人称视角</span>
                 <br/>
                 <br/>
                 (W, A, S, D = 移动, SPACE = 跳跃, MOUSE = 移动视角)
             </div>
-
         </div>
     </div>
 </template>
@@ -54,10 +40,6 @@ export default {
         this.city3DApp = new DigitalCity3D(dom)
         this.city3DApp.run()
 
-        const self = this
-        setTimeout(function () {
-            self.loadingFlag = false
-        }, 3000)
     },
     beforeDestroy() {
         this.city3DApp.destroy()
