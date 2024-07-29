@@ -178,7 +178,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 #rightToolClassSub {
     display: inline;
     float: left;

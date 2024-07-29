@@ -128,8 +128,7 @@ export default {
 }
 </script>
 
-<style lang="less">
-@import '../0main.less';
+<style lang="scss">
 
 #rightContainer {
     position: absolute;
@@ -137,14 +136,12 @@ export default {
     top: 46px;
     width: 300px;
     height: auto;
-    background-color: @center;
 
     #rightToolClass {
         display: inline-block;
         float: left;
         width: 25px;
         height: calc(100vh);
-        background-color: @outer;
         box-shadow: 1px 1px 1px #7BA4B4;
 
         .rightToolClassSub {

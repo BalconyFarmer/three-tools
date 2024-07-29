@@ -67,19 +67,19 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 
-@loadWidth: 100vw;
-@loadHeight: 100vh;
+$loadWidth: 100vw;
+$loadHeight: 100vh;
 
 #loading {
     z-index: 5000;
     background-color: white;
     position: absolute;
-    left: calc(100vw / 2 - @loadWidth / 2);
-    top: calc(100vh / 2 - @loadHeight / 2);
-    width: @loadWidth;
-    height: @loadHeight;
+    left: calc(100vw / 2 - $loadWidth / 2);
+    top: calc(100vh / 2 - $loadHeight / 2);
+    width: $loadWidth;
+    height: $loadHeight;
     opacity: 0.9;
 
     #fontContainer {

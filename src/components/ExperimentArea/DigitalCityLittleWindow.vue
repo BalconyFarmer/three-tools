@@ -36,8 +36,7 @@ export default {
 
 </script>
 
-<style lang="less">
-@import '../0main.less';
+<style lang="scss">
 
 #littleWindowContainer {
     position: absolute;
@@ -48,7 +47,6 @@ export default {
     z-index: 2000;
 
     #header {
-        background-color: @outer;
         width: calc(100vw - 600px);
         height: 20px;
     }

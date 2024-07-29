@@ -28,15 +28,13 @@ export default {
 }
 </script>
 
-<style lang="less">
-@import '../0main.less';
+<style lang="scss">
 
 #rightToolClassSubGeometry {
     float: left;
     display: inline;
     width: 275px;
     height: calc(100vh);
-    background-color: @center;
     border: solid #99A1A9 1px;
 
     /*内容尺寸*/

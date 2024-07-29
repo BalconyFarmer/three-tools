@@ -208,11 +208,9 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 
 #experimentAreaAll {
-    #3dCanvas {
-    }
 
     #rightContainer {
         position: absolute;

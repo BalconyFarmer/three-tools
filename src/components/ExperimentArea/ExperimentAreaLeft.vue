@@ -113,8 +113,7 @@ export default {
 };
 </script>
 
-<style lang="less">
-@import '../0main.less';
+<style lang="scss">
 
 /*定义滚动条高宽及背景
  高宽分别对应横竖滚动条的尺寸*/
@@ -144,7 +143,6 @@ export default {
     position: absolute;
     left: 0px;
     top: 46px;
-    background-color: @center;
     overflow: auto;
     width: 300px;
     height: calc(100vh);
@@ -153,7 +151,6 @@ export default {
     #leftToolClass {
         display: inline;
         float: left;
-        background-color: @outer;
         width: 25px;
         height: calc(100vh);
         box-shadow: 1px 1px 1px #7BA4B4;
@@ -183,7 +180,6 @@ export default {
 
         .ant-tree.ant-tree-show-line li span.ant-tree-switcher {
             color: rgba(0, 0, 0, 0.45);
-            background: @center;
         }
 
         .ant-tree li .ant-tree-node-content-wrapper {
