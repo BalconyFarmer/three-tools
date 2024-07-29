@@ -1,19 +1,19 @@
-# three-tools
+### threejs-tools 项目介绍
 
-## Project setup
-```
-npm install
-```
+#### 项目功能
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+- **场景管理工具**:
+    - **动画**: 提供多种动画效果，增强场景动态表现。
+    - **基础数学**: 包含基本数学运算工具，支持复杂计算。
+    - **基本网格**: 管理基础3D网格对象。
+    - **光晕效果**: 实现逼真的光晕效果。
+    - **几何体**: 支持创建和操作多种几何体。
+    - **GUI**: 集成图形用户界面组件，便于用户操作。
+    - **辅助功能**: 提供开发辅助工具，提升开发效率。
+    - **交互**: 增强用户与3D场景的互动体验。
+    - **加载器**: 支持加载各种资源和文件。
+    - **材质**: 多种材质管理，丰富视觉效果。
+    - **项目示例**: 提供示例项目，展示工具使用方法。
+    - **基础场景**: 包含基础场景设置和配置，快速开始开发。
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+能够更轻松地使用 Three.js 构建和管理3D场景，适用于各种3D应用开发需求。
