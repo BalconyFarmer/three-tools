@@ -6,7 +6,6 @@ export class DigitalCity3D {
     constructor(dom) {
         this.dom = dom;
         this.app3D = null;
-        this.url = "http://101.34.131.94:8081/0staticFixed/";
     }
 
     run() {
@@ -132,13 +131,14 @@ export class DigitalCity3D {
 
     addFloorGround() {
         const material = new THREE.MeshBasicMaterial({ color: 0xE7E9E4, dithering: true });
-        const plane = new THREE.PlaneBufferGeometry(800, 800);
+        const plane = new THREE.PlaneGeometry(800, 800);  // 修改此行
         const mesh = new THREE.Mesh(plane, material);
         mesh.position.set(0, 0, 0);
         mesh.rotation.x = -Math.PI * 0.5;
 
         this.app3D.scene.add(mesh);
     }
+
 
     addShadow() {
         this.app3D.renderer.shadowMapType = THREE.PCFSoftShadowMap;

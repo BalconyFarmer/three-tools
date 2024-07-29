@@ -41,7 +41,6 @@ export class ImportObj {
         // 加载成功执行
         function callbackOnLoad(object3d) {
             this.app.scene.add(object3d)
-            this.app.onRender()
             this.mesh = object3d
             if (this.func) {
                 this.func(object3d)

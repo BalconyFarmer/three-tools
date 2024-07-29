@@ -98,19 +98,6 @@ export function savePicListApi(params) {
     })
 }
 
-/**
- * 加载用户头像
- */
-export function loadHeadIconApi(params) {
-    return axios({
-        method: "post",
-        url: serverAdress + '/userIcon',
-        data: {
-            userInf: params.userInf
-        },
-        withCredentials: true
-    })
-}
 
 /**
  * 保存3D模型

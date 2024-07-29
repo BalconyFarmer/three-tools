@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import {loadHeadIconApi} from '@/api/api'
 
 export default {
     name: 'HomePage',
@@ -97,9 +96,7 @@ export default {
                 const params = {
                     userInf: this.userInf
                 }
-                loadHeadIconApi(params).then((response) => {
-                    this.userIconBS64 = response.data
-                }).catch(error => console.log(error, "error"));
+
             } else {
                 this.userIconBS64 = null
             }
