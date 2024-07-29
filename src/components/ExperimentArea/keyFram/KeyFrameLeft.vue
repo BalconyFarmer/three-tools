@@ -31,13 +31,11 @@ export default {
 }
 </script>
 
-<style lang="less">
-@import '../../0main.less';
+<style lang="scss">
 
 #KFLC {
     .ant-tree.ant-tree-show-line li span.ant-tree-switcher {
         color: rgb(200 200 200);
-        background: @center;
     }
 
     .ant-tree li .ant-tree-node-content-wrapper {

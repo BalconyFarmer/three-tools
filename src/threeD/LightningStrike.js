@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import {LightningStorm} from 'three/examples/jsm/objects/LightningStorm.js';
+// import {LightningStorm} from 'three/examples/jsm/objects/LightningStorm.js';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
 import {OutlinePass} from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
@@ -12,7 +12,7 @@ export class LightningStrike {
 
 
     add() {
-        const self = this
+/*        const self = this
 
         function createStormScene() {
             const scene = self.app.scene;
@@ -131,7 +131,7 @@ export class LightningStrike {
         }
 
         createStormScene()
-        animate()
+        animate()*/
 
     }
 }
