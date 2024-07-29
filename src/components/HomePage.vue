@@ -143,7 +143,7 @@ export default {
     },
     mounted() {
         this.loadHeadIcon()
-        this.$router.push({path: '/rotateImg'}).catch(error => error)
+        this.$router.push({path: '/goDigitalCity'}).catch(error => error)
     },
     beforeDestroy() {
     }
