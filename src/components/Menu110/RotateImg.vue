@@ -1,7 +1,7 @@
 <template>
     <div class="all_3DMenu">
-        <canvas width="2000" height="1000" style="z-index: 99999; border: 1px solid yellow"
-                id="D3Container11"></canvas>
+        <canvas id="D3Container11" height="1000" style="z-index: 99999; border: 1px solid yellow"
+                width="2000"></canvas>
     </div>
 </template>
 
@@ -13,21 +13,9 @@ export default {
     data() {
         return {}
     },
-    methods: {
-        init3D() {
-            const self = this
-            const dom = document.getElementById('D3Container11')
-
-            const menuData = [
-                {assert: '党员教育0.png', routerAdress: "/PartyMemberPortrait"},
-            ]
-
-            this.menu3D = new RotatePic(dom)
-            this.menu3D.init3D(menuData)
-        },
-    },
     mounted() {
-        this.init3D()
+        const dom = document.getElementById('D3Container11')
+        this.menu3D = new RotatePic(dom)
     }
 }
 </script>
