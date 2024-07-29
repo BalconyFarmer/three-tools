@@ -18,7 +18,7 @@ export class DigitalCity3D {
         this.addGUI();
         this.addFloorGround();
 
-        this.loadOBJ();
+        // this.loadOBJ();
         this.addShadow();
 
     }

@@ -12,7 +12,7 @@ export class MakeBufferGeometryCube {
         this.addIndex()
         this.addNormals()
         this.adUV()
-        this.addToScene()
+        // this.addToScene()
     }
 
     makeBufGeo() {

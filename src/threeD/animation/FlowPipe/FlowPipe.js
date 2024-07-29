@@ -7,7 +7,6 @@ export class FlowPipe {
         this.mesh = null;
         this.texture = null;
         this.redius = 1; // 半径
-        this.direction = true;
         this.linePoints = null;
     }
 
@@ -48,11 +47,7 @@ export class FlowPipe {
 
     animate() {
         if (this.texture) {
-            if (this.direction) {
-                this.texture.offset.x += 0.01;
-            } else {
-                this.texture.offset.x -= 0.01;
-            }
+            this.texture.offset.x -= 0.1;
         }
     }
 }
