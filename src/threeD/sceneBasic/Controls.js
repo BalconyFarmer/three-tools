@@ -6,7 +6,6 @@ export class Controls {
         this.app = app
         this.controller = new OrbitControls(this.app.camera, this.app.renderer.domElement);
         this.firstPersonControls = null
-        this._updateAutoRun = this.updateAutoRun
     }
 
     /**

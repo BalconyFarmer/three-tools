@@ -29,6 +29,9 @@
                     </a-menu-item>
                 </a-menu>
             </div>
+            <div class="loadNum-container">
+                {{ loadNum }}
+            </div>
         </div>
         <router-view/>
     </div>
@@ -46,6 +49,7 @@ export default {
             showUserDetailFlag: false,
             keepUserDetailFlag: false,
             current: ['mail'],
+            loadNum: null
         }
     },
     computed: {},
@@ -141,14 +145,24 @@ export default {
     mounted() {
         this.loadHeadIcon()
         this.$router.push({path: '/goDigitalCity'}).catch(error => error)
+        $hub.on("loadedProcess", data => {
+            this.loadNum = data
+        })
     },
     beforeDestroy() {
     }
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .hello {
+
+    .loadNum-container {
+        position: fixed;
+        right: 30px;
+        top: 20px;
+        z-index: 999999;
+    }
 
     width: 100%;
     height: 100%;

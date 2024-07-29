@@ -60,7 +60,7 @@ export class ImportObj {
 
         // 加载进度回调
         function progress(xhr) {
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded' + 'OBJ加载完成!');
+            $hub.emit("loadedProcess", (xhr.loaded / xhr.total * 100))
         }
 
         if (this.OBJurl) {

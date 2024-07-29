@@ -13,19 +13,14 @@ export class DigitalCity3D {
         this.app3D.init();
 
         this.resetInit();
-        this.startTools();
-        this.loadOBJ();
         this.addFlowPipe();
-        this.addGUI();
         this.addCar();
+        this.addGUI();
         this.addFloorGround();
+
+        this.loadOBJ();
         this.addShadow();
 
-    }
-
-    startTools() {
-        // this.app3D.transformMesh.addEvent() // 开启移动物体
-        // this.app3D.takePoint.start()
     }
 
     resetInit() {
@@ -40,7 +35,7 @@ export class DigitalCity3D {
         this.app3D.controls.setLimit(-Math.PI / 2, Math.PI / 2, 0, Math.PI / 2, 10, 800);
         this.app3D.controls.startAutoRun(0.2);
 
-        // this.app3D.outlineShineEffect.run() // 外轮廓高亮效果
+        this.app3D.outlineShineEffect.run() // 外轮廓高亮效果
     }
 
     loadOBJ() {
@@ -82,7 +77,7 @@ export class DigitalCity3D {
             new THREE.Vector3(-35, 96, 106),
             new THREE.Vector3(17, 88, 79)
         ];
-        this.app3D.flowPipes.creatPipe(points);
+        this.app3D.flowPipe.create(points);
     }
 
     addGUI() {
