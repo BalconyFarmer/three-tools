@@ -38,34 +38,42 @@ export class RaycasterHelper {
      * @param event
      */
     getMesh(event) {
+        if (!this.mouse || !this.raycaster || !this.app) {
+            console.error('Raycaster or Mouse or App is not initialized');
+            return;
+        }
+
         this.mouse.x = (event.offsetX / this.app.dom.width) * 2 - 1;
         this.mouse.y = -(event.offsetY / this.app.dom.height) * 2 + 1;
+
         // 通过摄像机和鼠标位置更新射线
         this.raycaster.setFromCamera(this.mouse, this.app.camera);
-        let target = []
+
+        let target = [];
         this.app.scene.children.forEach(item => {
-            target.push(item)
+            target.push(item);
             if (item.type === 'Group') {
-                item.children.forEach(item => {
-                    target.push(item)
-                })
+                item.children.forEach(child => {
+                    target.push(child);
+                });
             }
-        })
+        });
+
         const intersects = this.raycaster.intersectObjects(target);
-        let point = null
+        let point = null;
 
-        if (defined(intersects[0])) {
-            point = intersects[0].point
-            this.point = intersects[0].point
+        if (intersects.length > 0 && intersects[0]) {
+            point = intersects[0].point;
+            this.point = intersects[0].point;
         }
 
-        if (defined(intersects[0]) && defined(point)) {
-            this.updatePosition(point)
-            this.selectedObject = intersects[0].object
+        if (point) {
+            this.updatePosition(point);
+            this.selectedObject = intersects[0].object;
         }
 
-        if (this.atSelectMeshFunc) {
-            this.atSelectMeshFunc(this.selectedObject)
+        if (this.atSelectMeshFunc && this.selectedObject) {
+            this.atSelectMeshFunc(this.selectedObject);
         }
     }
 

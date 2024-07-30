@@ -27,34 +27,61 @@ export class Helper {
     }
 
     /**
+     * 坐标辅助器
+     * @param x
+     * @param y
+     * @param z
+     * @param size
+     * @param scene
+     */
+    static addVerticHelper(x, y, z, size, scene) {
+        const cube = CubeMesh.makeCubeMesh(x, y, z, size)
+        scene.add(cube)
+        return cube
+    }
+
+    /**
+     * 平面辅助器
+     */
+    static addPlaneHelper(plane, size, scene) {
+        const helper = new THREE.PlaneHelper(plane, size, 0xffff00);
+        scene.add(helper);
+    }
+
+    /**
+     * 线框显示mesh
+     */
+    static addWireframeGeometry() {
+        // https://threejs.org/docs/index.html#api/zh/geometries/WireframeGeometry
+    }
+
+    /**
      * 性能检测辅助器
      */
     addStats() {
-        // document.body.appendChild(this.stats.domElement)
-        // this.stats.domElement.style.position = 'absolute'
-        // this.stats.domElement.style.left = '0px'
-        // this.stats.domElement.style.top = document.body.clientHeight - 50 + 'px'
-        //
-        // const self = this
-        // this.app.renderQueue.push(
-        //     function updateStats() {
-        //         if (self.stats) {
-        //             self.stats.update();
-        //         }
-        //     }
-        // )
+        document.body.appendChild(this.stats.domElement)
+        this.stats.domElement.style.position = 'absolute'
+        this.stats.domElement.style.left = '0px'
+        this.stats.domElement.style.top = document.body.clientHeight - 50 + 'px'
+
+        const self = this
+        this.app.renderQueue.push(function updateStats() {
+            if (self.stats) {
+                self.stats.update();
+            }
+        })
     }
 
     removeStats() {
-        // document.body.removeChild(this.stats.domElement)
-        //
-        // let indexDelete = NaN
-        // this.app.renderQueue.forEach((item, index) => {
-        //     if (item.name === 'updateStats') {
-        //         indexDelete = index
-        //     }
-        // })
-        // this.app.renderQueue.splice(indexDelete, 1)
+        document.body.removeChild(this.stats.domElement)
+
+        let indexDelete = NaN
+        this.app.renderQueue.forEach((item, index) => {
+            if (item.name === 'updateStats') {
+                indexDelete = index
+            }
+        })
+        this.app.renderQueue.splice(indexDelete, 1)
     }
 
     /**
@@ -146,7 +173,7 @@ export class Helper {
         this.gridHelper = new THREE.Group()
         this.gridHelper.cname = '地面网格 '
         const geometry = new THREE.PlaneGeometry(1000, 1000, 32);
-        const material = new THREE.MeshPhongMaterial({ color: 0xffff00, side: THREE.DoubleSide });
+        const material = new THREE.MeshPhongMaterial({color: 0xffff00, side: THREE.DoubleSide});
         material.transparent = true
         material.opacity = 0.05
         const plane = new THREE.Mesh(geometry, material);
@@ -156,7 +183,6 @@ export class Helper {
         this.gridHelper.add(new THREE.GridHelper(size, divisions), plane);
         this.app.scene.add(this.gridHelper);
     }
-
 
     removeGridhelper() {
         this.app.scene.remove(this.gridHelper);
@@ -302,35 +328,6 @@ export class Helper {
         const helper = new VertexNormalsHelper(box, 2, 0x00ff00, 1);
         this.app.scene.add(box);
         this.app.scene.add(helper);
-    }
-
-    /**
-     * 坐标辅助器
-     * @param x
-     * @param y
-     * @param z
-     * @param size
-     * @param scene
-     */
-    static addVerticHelper(x, y, z, size, scene) {
-        const cube = CubeMesh.makeCubeMesh(x, y, z, size)
-        scene.add(cube)
-        return cube
-    }
-
-    /**
-     * 平面辅助器
-     */
-    static addPlaneHelper(plane, size, scene) {
-        const helper = new THREE.PlaneHelper(plane, size, 0xffff00);
-        scene.add(helper);
-    }
-
-    /**
-     * 线框显示mesh
-     */
-    static addWireframeGeometry() {
-        // https://threejs.org/docs/index.html#api/zh/geometries/WireframeGeometry
     }
 
 

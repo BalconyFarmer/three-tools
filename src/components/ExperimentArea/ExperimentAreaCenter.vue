@@ -2,32 +2,29 @@
     <div id="centerContainer">
         <div id="centerTool">
             <div id="toolList">
-            <span :class="axesFlag?'backDiv': ''">
-                <img :src="axesSvg" class="icon0" @click="axesToggle">
-            </span>
-                <span :class="statsFlag?'backDiv': ''">
-                <img :src="statsSvg" class="icon1" @click="statsToggle" style="width: 20px">
-            </span>
-                <span :class="grideLineFlag?'backDiv': ''">
-                <img :src="grideLineSvg" class="icon1" @click="startGrideLine">
-            </span>
-                <span :class="cameraLookBottomFlag?'backDiv': ''">
-                <img :src="bottomSee" class="icon1" @click="cameraLookBottom" style="width: 17px">
-            </span>
-                <span :class="cameraLookRightFlag?'backDiv': ''">
-                <img :src="leftSee" class="icon1" @click="cameraLookRight" style="width: 15px">
-            </span>
-                <span :class="transformFlag?'backDiv': ''">
-                <img :src="transformMesh" class="icon1" @click="startTransform" style="width: 15px">
-            </span>
-                <span :class="startLightHelperFlag?'backDiv': ''">
-                <img :src="lightIcon" class="icon1" @click="startLightHelper" style="width: 15px">
-            </span>
-                <span :class="startTakePointFlag?'backDiv': ''">
-                <img :src="takePointIcon" class="icon1" @click="startTakePoint" style="width: 15px">
-            </span>
+                <span :class="axesFlag ? 'backDiv' : ''">
+                    <img :src="axesSvg" class="icon0" @click="axesToggle" />
+                </span>
+                <span :class="statsFlag ? 'backDiv' : ''">
+                    <img :src="statsSvg" class="icon1" style="width: 20px" @click="statsToggle" />
+                </span>
+                <span :class="grideLineFlag ? 'backDiv' : ''">
+                    <img :src="grideLineSvg" class="icon1" @click="startGrideLine" />
+                </span>
+                <span :class="cameraLookRightFlag ? 'backDiv' : ''">
+                    <img :src="leftSee" class="icon1" style="width: 15px" @click="cameraLookRight" />
+                </span>
+                <span :class="transformFlag ? 'backDiv' : ''">
+                    <img :src="transformMesh" class="icon1" style="width: 15px" @click="startTransform" />
+                </span>
+                <span :class="startLightHelperFlag ? 'backDiv' : ''">
+                    <img :src="lightIcon" class="icon1" style="width: 15px" @click="startLightHelper" />
+                </span>
+                <span :class="startTakePointFlag ? 'backDiv' : ''">
+                    <img :src="takePointIcon" class="icon1" style="width: 15px" @click="startTakePoint" />
+                </span>
 
-                <a-switch size="small" default-checked:false @change="casterMeshChange"/>
+                <a-switch default-checked:false size="small" @change="casterMeshChange" />
             </div>
         </div>
 
@@ -35,7 +32,7 @@
             <a-dropdown>
                 <a class="ant-dropdown-link" @click="e => e.preventDefault()">
                     文件管理
-                    <a-icon type="down"/>
+                    <a-icon type="down" />
                 </a>
                 <a-menu slot="overlay">
                     <a-menu-item>保存</a-menu-item>
@@ -52,21 +49,20 @@
         </div>
 
         <div id="drawTools">
-            <img :src="icon5" class="icon5" @click="" style="width: 20px">
-            <img :src="icon0" class="icon5" @click="" style="width: 20px">
-            <img :src="icon1" class="icon5" @click="" style="width: 20px">
-            <img :src="icon2" class="icon5" @click="" style="width: 20px">
-            <img :src="icon3" class="icon5" @click="" style="width: 20px">
-            <img :src="icon4" class="icon5" @click="" style="width: 20px">
-            <img :src="icon6" class="icon5" @click="" style="width: 20px">
-            <img :src="icon7" class="icon5" @click="" style="width: 20px">
-            <img :src="icon8" class="icon5" @click="" style="width: 20px">
-            <img :src="icon9" class="icon5" @click="" style="width: 20px">
-            <img :src="icon10" class="icon5" @click="" style="width: 20px">
-            <img :src="icon11" class="icon5" @click="" style="width: 20px">
+            <img :src="icon5" class="icon5" style="width: 20px" @click="" />
+            <img :src="icon0" class="icon5" style="width: 20px" @click="" />
+            <img :src="icon1" class="icon5" style="width: 20px" @click="" />
+            <img :src="icon2" class="icon5" style="width: 20px" @click="" />
+            <img :src="icon3" class="icon5" style="width: 20px" @click="" />
+            <img :src="icon4" class="icon5" style="width: 20px" @click="" />
+            <img :src="icon6" class="icon5" style="width: 20px" @click="" />
+            <img :src="icon7" class="icon5" style="width: 20px" @click="" />
+            <img :src="icon8" class="icon5" style="width: 20px" @click="" />
+            <img :src="icon9" class="icon5" style="width: 20px" @click="" />
+            <img :src="icon10" class="icon5" style="width: 20px" @click="" />
+            <img :src="icon11" class="icon5" style="width: 20px" @click="" />
         </div>
     </div>
-
 </template>
 
 <script>
@@ -92,17 +88,16 @@ import icon9 from '@/assets/leftTools/油漆桶.svg';
 import icon10 from '@/assets/leftTools/圆形.svg';
 import icon11 from '@/assets/leftTools/正方形.svg';
 
-import {saveScene} from '@/api/api/'
-import {readScene} from '@/api/api/'
-import * as THREE from 'three'
-import {serverAdress} from '@/config';
+import { readScene, saveScene } from '@/api/api/';
+import * as THREE from 'three';
+import { serverAdress } from '@/config';
 
 const FileSaver = require('file-saver');
 
 export default {
     props: {
         app3D: Object,
-        required: true,
+        required: true
     },
     data() {
         return {
@@ -136,89 +131,85 @@ export default {
             cameraLookRightFlag: false,
             startLightHelperFlag: false,
             startTakePointFlag: false
-        }
+        };
     },
     methods: {
         axesToggle() {
             if (this.axesFlag) {
                 if (window.app3D.helper) {
-                    window.app3D.helper.removeAxes()
+                    window.app3D.helper.removeAxes();
                 }
-                this.axesFlag = false
+                this.axesFlag = false;
             } else {
                 if (window.app3D.helper) {
-                    window.app3D.helper.addAxes()
+                    window.app3D.helper.addAxes();
                 }
-                this.axesFlag = true
+                this.axesFlag = true;
             }
         },
         statsToggle() {
             if (this.statsFlag) {
-                window.app3D.helper.removeStats()
-                this.statsFlag = false
+                window.app3D.helper.removeStats();
+                this.statsFlag = false;
             } else {
-                window.app3D.helper.addStats()
-                this.statsFlag = true
+                window.app3D.helper.addStats();
+                this.statsFlag = true;
             }
         },
         startGrideLine() {
             if (this.grideLineFlag) {
-                window.app3D.helper.removeGridhelper()
-                this.grideLineFlag = false
+                window.app3D.helper.removeGridhelper();
+                this.grideLineFlag = false;
             } else {
-                window.app3D.helper.addGridhelper()
-                this.grideLineFlag = true
+                window.app3D.helper.addGridhelper();
+                this.grideLineFlag = true;
             }
         },
         startTransform() {
             if (this.transformFlag) {
-                window.app3D.transformMesh.removeEvent()
-                this.transformFlag = false
+                window.app3D.transformMesh.removeEvent();
+                this.transformFlag = false;
             } else {
-                window.app3D.transformMesh.addEvent()
-                this.transformFlag = true
+                window.app3D.transformMesh.addEvent();
+                this.transformFlag = true;
             }
         },
-        cameraLookBottom() {
-            window.app3D.sceneCamera.cameraLookBottom()
-        },
         cameraLookRight() {
-            window.app3D.sceneCamera.cameraLookRight()
+            window.app3D.sceneCamera.cameraLookRight();
         },
         startLightHelper() {
             if (this.startLightHelperFlag) {
-                window.app3D.helper.removeLightHelper()
-                this.startLightHelperFlag = false
+                window.app3D.helper.removeLightHelper();
+                this.startLightHelperFlag = false;
             } else {
-                window.app3D.helper.addLightHelper()
-                this.startLightHelperFlag = true
+                window.app3D.helper.addLightHelper();
+                this.startLightHelperFlag = true;
             }
         },
         startTakePoint() {
             if (this.startTakePointFlag) {
-                window.app3D.takePoint.stop()
-                this.startTakePointFlag = false
+                window.app3D.takePoint.stop();
+                this.startTakePointFlag = false;
             } else {
-                window.app3D.takePoint.start()
-                this.startTakePointFlag = true
+                window.app3D.takePoint.start();
+                this.startTakePointFlag = true;
             }
         },
-
         exportMesh() {
             const geometry = new THREE.BoxGeometry(1, 1, 1);
-            const material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
             const cube = new THREE.Mesh(geometry, material);
             // window.app3D.scene.add(cube);
 
-            const data = cube.toJSON()
+            const data = cube.toJSON();
             const content = JSON.stringify(data);
 
-            const blob = new Blob([content], {type: "text/plain;charset=utf-8"});
-            FileSaver.saveAs(blob, "Mesh.json");
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            FileSaver.saveAs(blob, 'Mesh.json');
         },
         importMesh() {
             var loader = new THREE.ObjectLoader();
-            const self = this
+            const self = this;
 
             loader.load(
                 // 资源的URL
@@ -233,7 +224,7 @@ export default {
 
                 // onProgress回调
                 function (xhr) {
-                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                    console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
                 },
 
                 // onError回调
@@ -244,29 +235,27 @@ export default {
         },
         casterMeshChange(event) {
             if (event) {
-                this.$parent.startLittleWindow()
+                this.$parent.startLittleWindow();
             } else {
-                this.$parent.stopLittleWindow()
+                this.$parent.stopLittleWindow();
             }
         },
         exportScene() {
-            const scene = window.app3D.scene
-            const data = scene.toJSON()
+            const scene = window.app3D.scene;
+            const data = scene.toJSON();
             const content = JSON.stringify(data);
             // const blob = new Blob([content], {type: "text/plain;charset=utf-8"});
             // FileSaver.saveAs(blob, "Scene.json");
 
-            saveScene(content)
+            saveScene(content);
         },
         importScene() {
-
-            const self = this
+            const self = this;
 
             readScene().then(function (response) {
-
                 var loader = new THREE.ObjectLoader();
                 const reg = './static/';
-                const url = response.data.replace(reg, serverAdress + '/')
+                const url = response.data.replace(reg, serverAdress + '/');
 
                 loader.load(
                     // 资源的URL
@@ -280,7 +269,7 @@ export default {
 
                     // onProgress回调
                     function (xhr) {
-                        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                        console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
                     },
 
                     // onError回调
@@ -288,20 +277,19 @@ export default {
                         console.error('An error happened');
                     }
                 );
-            })
+            });
         }
     },
     mounted() {
         this.$nextTick(function () {
-            this.axesToggle()
-            this.startGrideLine()
-        })
+            this.axesToggle();
+            this.startGrideLine();
+        });
     }
-}
+};
 </script>
 
 <style lang="scss">
-
 #centerContainer {
     #centerTool {
         position: absolute;
@@ -309,15 +297,18 @@ export default {
         height: auto;
         top: 60px;
         left: calc(100vw / 2 - 150px);
-        border: solid #99A1A9 1px;
+        border: solid #99a1a9 1px;
+
+        span {
+            margin: 5px;
+        }
 
         #toolList {
-
             background-color: #001529;
             display: inline;
 
             .backDiv {
-                background-color: #1890FF;
+                background-color: #1890ff;
             }
 
             img {
@@ -333,7 +324,7 @@ export default {
         top: 47px;
         left: calc(100vw - 300px - 100px);
         height: auto;
-        border: solid #99A1A9 1px;
+        border: solid #99a1a9 1px;
 
         a {
             color: white;
@@ -346,7 +337,7 @@ export default {
         height: auto;
         top: 147px;
         left: calc(300px);
-        border: solid #99A1A9 1px;
+        border: solid #99a1a9 1px;
 
         img {
             margin-top: 5px;
@@ -354,5 +345,4 @@ export default {
         }
     }
 }
-
 </style>
