@@ -90,27 +90,27 @@ export default {
         },
         onSelect(selectedKeys, info) {
             debugger
-            this.app3D.getMeshByUUID(selectedKeys)
+            window.app3D.getMeshByUUID(selectedKeys)
             this.selectedKeys = selectedKeys;
         },
         updateTreeData() {
             setTimeout(()=> {
-                this.treeData = this.app3D.getSceneChildren()
+                this.treeData = window.app3D.getSceneChildren()
             },500)
         },
         clickTree(e) {
             e.stopPropagation()
         },
         getMeshByUUIDDispose() {
-            this.app3D.getMeshByUUIDDispose()
+            window.app3D.getMeshByUUIDDispose()
             this.selectedKeys = []
         }
     },
     mounted() {
         this.$nextTick(function () {
             setTimeout(()=> {
-                this.treeData = this.app3D.getSceneChildren()
-                this.app3D.eventBus.addEventListener('updateLeftTreeData', this.updateTreeData.bind(this))
+                this.treeData = window.app3D.getSceneChildren()
+                window.app3D.eventBus.addEventListener('updateLeftTreeData', this.updateTreeData.bind(this))
             },500)
         })
     }

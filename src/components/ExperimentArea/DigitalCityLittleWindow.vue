@@ -21,7 +21,7 @@ export default {
     },
     methods: {
         closeLittleWindow() {
-            this.app3D.littleWindow.destroy()
+            window.app3D.littleWindow.destroy()
             this.$parent.showLittleWindow = false
             this.$parent.startLittleWindow()
         }
