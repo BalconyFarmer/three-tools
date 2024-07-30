@@ -1,8 +1,7 @@
 <template>
-    <div id='rightToolClassSub'>
-        <strong>
-            环境相关
-        </strong>
+    <div id="rightToolClassSub">
+        <a @click="clearAll">清空</a>
+        <strong>环境相关</strong>
         <a @click="addLightStrick">闪电</a>
         <a @click="bloomOnly">bloomOnly</a>
         <a @click="addCloud">云</a>
@@ -15,18 +14,12 @@
         <a @click="makePhysiSimulate">物理模拟</a>
         <a @click="addOutlineShineEffect">外轮廓高亮效果</a>
 
-        <br>
-        <br>
-        <strong>
-            事件
-        </strong>
+        <br><br>
+        <strong>事件</strong>
         <a @click="addEventCube">addEventCube</a>
 
-        <br>
-        <br>
-        <strong>
-            动态物质
-        </strong>
+        <br><br>
+        <strong>动态物质</strong>
         <a @click="addAnimationTest">动画小车</a>
         <a @click="addSkimmer">加载蛋分</a>
         <a @click="startAnimatioinEditor">开启动画编辑器</a>
@@ -43,8 +36,7 @@
         <a @click="makePlayVideo">makePlayVideo</a>
         <a @click="addCanvasAnimation">addCanvasAnimation</a>
 
-        <br>
-        <br>
+        <br><br>
         <strong>计算相关</strong>
         <a @click="makeCar">碰撞检测</a>
         <a @click="startTestBSP">BSP计算</a>
@@ -56,8 +48,7 @@
         <a @click="makeBufferGeometryMesh">makeBufferGeometryMesh</a>
         <a @click="addCustomCube">Box</a>
 
-        <br>
-        <br>
+        <br><br>
         <strong>辅助查看器helper</strong>
         <a @click="makeOfflineRender">makeOfflineRender</a>
         <a @click="addCameraHelper">addCameraHelper</a>
@@ -68,209 +59,171 @@
 
         <strong>其他</strong>
         <a @click="dialogVisible = true">canvas</a>
-        <el-dialog title="canvas绘图" :visible.sync="dialogVisible" width="90%" height="80%">
+        <el-dialog :visible.sync="dialogVisible" height="80%" title="canvas绘图" width="90%">
             <Canvas class="canvasComponents"></Canvas>
         </el-dialog>
-
     </div>
 </template>
 
 <script>
 import * as THREE from "three";
-import {serverAdress} from '@/config';
+import { serverAdress } from "@/config";
 import Canvas from "./Canvas/Canvas";
 
 export default {
     components: {
         Canvas
     },
-    props: {
-        app3D: Object,
-        required: true
-    },
     data() {
         return {
             dialogVisible: false
-        }
+        };
     },
-
     methods: {
-
         addAdvancedMaterial() {
-            window.app3D.advancedMaterial.add()
+            window.app3D.advancedMaterial.add();
         },
-
         addFlowPipe() {
-            window.app3D.flowPipes.creatPipe()
-
+            window.app3D.flowPipes.creatPipe();
         },
         addAnimationTest() {
-            const mesh = serverAdress + '/3Dstatic/model3D/警车/警车/obj/policeCar.obj'
-            const times = [0, 5, 10]
-            const positions = [-164, 87, -0.9, -71, 87, 6.9, -71, 87, 109]
-            window.app3D.animation.start(mesh, times, positions)
+            const mesh = serverAdress + "/3Dstatic/model3D/警车/警车/obj/policeCar.obj";
+            const times = [0, 5, 10];
+            const positions = [-164, 87, -0.9, -71, 87, 6.9, -71, 87, 109];
+            window.app3D.animation.start(mesh, times, positions);
         },
         addSkimmer() {
-            const mesh = serverAdress + '/3Dstatic/model3D/蛋分/SimLab_2022-10-20-15-40-52.obj'
-            window.app3D.objLoaders.loadOBJ(mesh,"蛋分")
+            const mesh = serverAdress + "/3Dstatic/model3D/蛋分/SimLab_2022-10-20-15-40-52.obj";
+            window.app3D.objLoaders.loadOBJ(mesh, "蛋分");
         },
         addGUITest() {
-            window.app3D.GUI3D.start()
-
+            window.app3D.GUI3D.start();
         },
         addCameraHelper() {
-            window.app3D.helper.addCameraHelper()
+            window.app3D.helper.addCameraHelper();
         },
         startTestBSP() {
-            // window.app3D.bSPCalculate.startTestBSP()
-
+            // window.app3D.bSPCalculate.startTestBSP();
         },
         addPolarGridHelper() {
-            window.app3D.helper.addPolarGridHelper()
-
+            window.app3D.helper.addPolarGridHelper();
         },
         addHemisphereLightHelper() {
-            window.app3D.helper.addHemisphereLightHelper()
-
+            window.app3D.helper.addHemisphereLightHelper();
         },
         addFaceNormalsHelper() {
-            window.app3D.helper.addFaceNormalsHelper()
-
+            window.app3D.helper.addFaceNormalsHelper();
         },
         addVertexNormalsHelper() {
-            window.app3D.helper.addVertexNormalsHelper()
-
+            window.app3D.helper.addVertexNormalsHelper();
         },
         addEventCube() {
-            window.app3D.eventCube.addCube()
-
+            window.app3D.eventCube.addCube();
         },
         addFBX() {
-            window.app3D.FBXLoader.loadFBX(`${serverAdress}/3Dstatic/model3D/SambaDancing.fbx`)
+            window.app3D.FBXLoader.loadFBX(`${serverAdress}/3Dstatic/model3D/SambaDancing.fbx`);
         },
         makeMeshPoint() {
-            window.app3D.makeMeshPoint.start()
-
+            window.app3D.makeMeshPoint.start();
         },
         makeMeshLine() {
-            window.app3D.makeMeshLine.start()
-
+            window.app3D.makeMeshLine.start();
         },
         makePlayVideo() {
-            window.app3D.playVideo.mamkeMesh()
-
+            window.app3D.playVideo.mamkeMesh();
         },
         addShadows() {
-            window.app3D.shadowLight.init()
-
+            window.app3D.shadowLight.init();
         },
         addCanvasAnimation() {
-            window.app3D.canvasTexture.addMesh()
-
+            window.app3D.canvasTexture.addMesh();
         },
         addMatrix4Practice() {
-            window.app3D.matrix4Practice.start()
-
+            window.app3D.matrix4Practice.start();
         },
         addEulerPractice() {
-            window.app3D.eulerPractice.start()
-
+            window.app3D.eulerPractice.start();
         },
         addQuaternionPractice() {
-            window.app3D.quaternionPractice.makeMesh()
-
+            window.app3D.quaternionPractice.makeMesh();
         },
         addOutlineShineEffect() {
-            window.app3D.outlineShineEffect.run()
-
+            window.app3D.outlineShineEffect.run();
         },
         makeBufferGeometryMesh() {
-            window.app3D.makeBufferGeometryMesh.start()
-
+            window.app3D.makeBufferGeometryMesh.start();
         },
         makeGeometryMesh() {
-            window.app3D.makeGeometryMesh.start()
-
+            window.app3D.makeGeometryMesh.start();
         },
         makeOfflineRender() {
-            window.app3D.offLineRender.start()
-
+            window.app3D.offLineRender.start();
         },
-
         makePhysiSimulate() {
-            window.app3D.physiSimulate.init()
-
+            window.app3D.physiSimulate.init();
         },
         makeCar() {
-            window.app3D.car.init()
-
+            window.app3D.car.init();
         },
         JudgeFace3() {
-            window.app3D.JudgeFace3.init()
-
+            window.app3D.JudgeFace3.init();
         },
         addSound() {
-            window.app3D.sound.start()
-
+            window.app3D.sound.start();
         },
         addCustomCube() {
-            window.app3D.addCustomCube()
+            window.app3D.addCustomCube();
         },
         startAutoRunCamera() {
-            window.app3D.controls.startAutoRun()
+            window.app3D.controls.startAutoRun();
         },
-
         startPersonalControl() {
-            const position = new THREE.Vector3(0, 0, 0)
-            const lookPosition = new THREE.Vector3(100, 100, 100)
-            window.app3D.controls.startFirstPersonControls(position, lookPosition)
+            const position = new THREE.Vector3(0, 0, 0);
+            const lookPosition = new THREE.Vector3(100, 100, 100);
+            window.app3D.controls.startFirstPersonControls(position, lookPosition);
         },
-
         stopPersonalControl() {
-            window.app3D.controls.stopFirstPersonControls()
-
+            window.app3D.controls.stopFirstPersonControls();
         },
         addBackgroundImg() {
-            window.app3D.skyBox.addJpgBackground()
+            window.app3D.skyBox.addJpgBackground();
         },
         addLightStrick() {
-            window.app3D.lightningStrike.add()
+            window.app3D.lightningStrike.add();
+        },
+        clearAll() {
+            window.app3D.sceneManager.clearScene();
         },
         bloomOnly() {
-            window.app3D.bloomOnly.bloom()
+            window.app3D.bloomOnly.bloom();
         },
         addCloud() {
-            let P1 = [10, 20, -21]
-            let size1 = 10
-            window.app3D.cloud.addCloud(P1, size1)
-
-            let P2 = [0, 37, 6]
-            let size2 = 15
-            window.app3D.cloud.addCloud(P2, size2)
+            const clouds = [
+                { position: [10, 20, -21], size: 10 },
+                { position: [0, 37, 6], size: 15 }
+            ];
+            clouds.forEach(cloud => window.app3D.cloud.addCloud(cloud.position, cloud.size));
         },
         addGrass() {
-            window.app3D.grass.add()
+            window.app3D.grass.add();
         },
         addBackgroundBox() {
-            window.app3D.skyBox.addSkyBox()
-
+            window.app3D.skyBox.addSkyBox();
         },
         addWater() {
-            window.app3D.waterPlane.add()
+            window.app3D.waterPlane.add();
         },
         startAnimatioinEditor() {
-            this.$parent.$parent.startAnimatioinEditor()
+            this.$parent.$parent.startAnimatioinEditor();
         },
         stopAnimationEditor() {
-            this.$parent.$parent.stopAnimationEditor()
+            this.$parent.$parent.stopAnimationEditor();
         }
     },
     mounted() {
-        const self = this
-        this.$nextTick(function () {
-        })
+        this.$nextTick(function () {});
     }
-}
+};
 </script>
 
 <style lang="scss">
@@ -288,15 +241,15 @@ export default {
     float: left;
     width: 275px;
     height: calc(100vh - 50px);
-    border: solid #99A1A9 1px;
+    border: solid #99a1a9 1px;
     overflow: auto;
 
     div {
-        color: #7DD3CA;
+        color: #7dd3ca;
     }
 
     a {
-        color: #1890FF;
+        color: #1890ff;
         display: block;
     }
 }

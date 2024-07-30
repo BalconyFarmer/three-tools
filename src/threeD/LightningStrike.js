@@ -12,7 +12,7 @@ export class LightningStrike {
 
 
     add() {
-/*        const self = this
+        const self = this
 
         function createStormScene() {
             const scene = self.app.scene;
@@ -131,7 +131,7 @@ export class LightningStrike {
         }
 
         createStormScene()
-        animate()*/
+        animate()
 
     }
 }

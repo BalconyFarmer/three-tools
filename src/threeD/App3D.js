@@ -103,7 +103,7 @@ export default class App3D {
     init() {
         const sceneInitializer = new SceneInitializer(this, this.dom);
         sceneInitializer.init();
-        new SceneManager(this);
+        this.sceneManager = new SceneManager(this);
         this.initializeComponents();
     }
 

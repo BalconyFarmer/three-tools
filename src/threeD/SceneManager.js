@@ -81,4 +81,20 @@ export class SceneManager {
             this.app.transformMesh.removeEvent();
         }
     }
+
+    clearScene() {
+        let scene = this.scene
+        while (scene.children.length > 0) {
+            let obj = scene.children[0];
+            scene.remove(obj);
+            if (obj.geometry) obj.geometry.dispose();
+            if (obj.material) {
+                if (Array.isArray(obj.material)) {
+                    obj.material.forEach(material => material.dispose());
+                } else {
+                    obj.material.dispose();
+                }
+            }
+        }
+    }
 }
