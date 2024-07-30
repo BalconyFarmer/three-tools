@@ -3,7 +3,6 @@ import {SceneInitializer} from "./SceneInitializer"; // 导入 SceneInitializer 
 import {RaycasterHelper} from "@/threeD/interaction/RaycasterHelper";
 import {ImportObjs} from "@/threeD/loaders/ImportObjs";
 import {ImportFBX} from '@/threeD/animation/ImportFBX';
-import {EventCube} from '@/threeD/interaction/EventCube';
 import {JudgeFace3} from '@/threeD/basicMath/JudgeFace3';
 import {FlowPipe} from '@/threeD/animation/FlowPipe/FlowPipe';
 import {Helper} from '@/threeD/helpers/Helper';
@@ -24,7 +23,6 @@ import {ArrowLine} from './helpers/representationalviewer/ArrowLine';
 import {Matrix4Practice} from './basicMath/Matrix4Practice';
 import {EulerPractice} from './basicMath/EulerPractice';
 import {QuaternionPractice} from './basicMath/QuaternionPractice';
-import {OutlineShineEffect} from './interaction/OutlineShineEffect';
 import {PlayVideo} from './materials/PlayVideo';
 import {TextureCanvasAnimation} from './materials/TextureCanvasAnimation';
 import {BasicMaterials} from '@/threeD/materials/BasicMaterials';
@@ -62,7 +60,6 @@ export default class App3D {
         this.FBXLoader = new ImportFBX(this);
         this.JudgeFace3 = new JudgeFace3(this);
         this.flowPipe = new FlowPipe(this);
-        this.eventCube = new EventCube(this);
         this.exportImport = new ExportImport(this);
         this.car = new Car(this);
         this.physiSimulate = new PhysiSimulate(this);
@@ -79,7 +76,6 @@ export default class App3D {
         this.matrix4Practice = new Matrix4Practice(this);
         this.eulerPractice = new EulerPractice(this);
         this.quaternionPractice = new QuaternionPractice(this);
-        this.outlineShineEffect = new OutlineShineEffect(this);
         this.playVideo = new PlayVideo(this);
         this.canvasTexture = new TextureCanvasAnimation(this);
         this.basicMaterials = new BasicMaterials(this);

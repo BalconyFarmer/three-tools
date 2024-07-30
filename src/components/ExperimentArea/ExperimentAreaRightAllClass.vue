@@ -11,11 +11,6 @@
         <a @click="stopPersonalControl">关闭第一人称</a>
         <a @click="addShadows">开启阴影</a>
         <a @click="makePhysiSimulate">物理模拟</a>
-        <a @click="addOutlineShineEffect">外轮廓高亮效果</a>
-
-        <br><br>
-        <strong>事件</strong>
-        <a @click="addEventCube">addEventCube</a>
 
         <br><br>
         <strong>动态物质</strong>
@@ -145,9 +140,6 @@ export default {
         },
         addQuaternionPractice() {
             window.app3D.quaternionPractice.makeMesh();
-        },
-        addOutlineShineEffect() {
-            window.app3D.outlineShineEffect.run();
         },
         makeBufferGeometryMesh() {
             window.app3D.makeBufferGeometryMesh.start();
