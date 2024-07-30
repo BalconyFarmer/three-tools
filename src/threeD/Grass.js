@@ -13,9 +13,7 @@ export class Grass {
         const width = 120;
         const resolution = 64;
         const delta = width / resolution;
-        const pos = new THREE.Vector2(0.01, 0.01);
         const radius = 240;
-        const speed = 3;
         const bladeHeight = 1;
         const joints = 4;
         const bladeWidth = 0.12;
@@ -44,7 +42,6 @@ export class Grass {
         groundBaseGeometry.verticesNeedUpdate = true;
 
         const groundGeometry = new THREE.PlaneGeometry(width, width, resolution, resolution);
-
         groundGeometry.setAttribute('basePosition', groundBaseGeometry.getAttribute("position"));
         groundGeometry.lookAt(new THREE.Vector3(0, 1, 0));
         groundGeometry.verticesNeedUpdate = true;
@@ -105,19 +102,17 @@ vec3 getNormal(vec3 pos){
 }
 `;
 
-        let groundShader;
         groundMaterial.onBeforeCompile = function (shader) {
             shader.uniforms.delta = { value: delta };
-            shader.uniforms.posX = { value: pos.x };
-            shader.uniforms.posZ = { value: pos.y };
+            shader.uniforms.posX = { value: 0.01 };
+            shader.uniforms.posZ = { value: 0.01 };
             shader.uniforms.radius = { value: radius };
             shader.uniforms.width = { value: width };
             shader.uniforms.noiseTexture = { value: noiseTexture };
             shader.vertexShader = groundVertexPrefix + shader.vertexShader;
             shader.vertexShader = shader.vertexShader.replace(
                 '#include <beginnormal_vertex>',
-                `//https://dev.to/maurobringolf/a-neat-trick-to-compute-modulo-of-negative-numbers-111e
-                        vec3 pos = vec3(0);
+                `vec3 pos = vec3(0);
                   pos.x = basePosition.x - mod(mod((delta*posX),delta) + delta, delta);
                   pos.z = basePosition.z - mod(mod((delta*posZ),delta) + delta, delta);
                   pos.y = max(0.0, placeOnSphere(pos)) - radius;
@@ -131,11 +126,9 @@ vec3 getNormal(vec3 pos){
                 '#include <begin_vertex>',
                 `vec3 transformed = vec3(pos);`
             );
-            groundShader = shader;
         };
 
         const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-
         ground.geometry.computeVertexNormals();
         this.app.scene.add(ground);
 
@@ -169,8 +162,6 @@ varying float idx;
 const float PI = 3.1415;
 const float TWO_PI = 2.0 * PI;
 
-
-//https://www.geeks3d.com/20141201/how-to-rotate-a-vertex-by-a-quaternion-in-glsl/
 vec3 rotateVectorByQuaternion(vec3 v, vec4 q){
   return 2.0 * cross(q.xyz, v * q.w + cross(q.xyz, v)) + v;
 }
@@ -179,7 +170,6 @@ float placeOnSphere(vec3 v){
   float theta = acos(v.z/radius);
   float phi = acos(v.x/(radius * sin(theta)));
   float sV = radius * sin(theta) * sin(phi);
-  //If undefined, set to default value
   if(sV != sV){
     sV = v.y;
   }
@@ -188,23 +178,18 @@ float placeOnSphere(vec3 v){
 
 void main() {
 
-	//Vertex height in blade geometry
 	frc = position.y / float(` + bladeHeight + `);
 
-	//Scale vertices
   vec3 vPosition = position;
 	vPosition.y *= scale;
 
-	//Invert scaling for normals
 	vNormal = normal;
 	vNormal.y /= scale;
 
-	//Rotate blade around Y axis
   vec4 direction = vec4(0.0, halfRootAngle.x, 0.0, halfRootAngle.y);
 	vPosition = rotateVectorByQuaternion(vPosition, direction);
 	vNormal = rotateVectorByQuaternion(vNormal, direction);
 
-  //UV for texture
   vUv = uv;
 
 	vec3 pos;
@@ -223,12 +208,9 @@ void main() {
 	pos.y = max(0.0, placeOnSphere(pos)) - radius;
 	pos.y += getYPosition(vec2(pos.x+delta*posX, pos.z+delta*posZ));
 
-	//Position of the blade in the visible patch [0->1]
   vec2 fractionalPos = 0.5 + offset.xz / width;
-  //To make it seamless, make it a multiple of 2*PI
   fractionalPos *= TWO_PI;
 
-  //Wind is sine waves in time.
   float noise = sin(fractionalPos.x + time);
   float halfAngle = noise * 0.1;
   noise = 0.5 + 0.5 * cos(fractionalPos.y + 0.25 * time);
@@ -236,14 +218,11 @@ void main() {
 
 	direction = normalize(vec4(sin(halfAngle), 0.0, -sin(halfAngle), cos(halfAngle)));
 
-	//Rotate blade and normals according to the wind
   vPosition = rotateVectorByQuaternion(vPosition, direction);
 	vNormal = rotateVectorByQuaternion(vNormal, direction);
 
-	//Move vertex to global location
 	vPosition += pos;
 
-	//Index of instance for varying colour in fragment shader
 	idx = index;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(vPosition, 1.0);
@@ -254,8 +233,6 @@ void main() {
 precision mediump float;
 
 uniform vec3 cameraPosition;
-
-//Light uniforms
 uniform float ambientStrength;
 uniform float diffuseStrength;
 uniform float specularStrength;
@@ -263,9 +240,6 @@ uniform float translucencyStrength;
 uniform float shininess;
 uniform vec3 lightColour;
 uniform vec3 sunDirection;
-
-
-//Surface uniforms
 uniform sampler2D map;
 uniform sampler2D alphaMap;
 uniform vec3 specularColour;
@@ -287,24 +261,20 @@ vec3 ACESFilm(vec3 x){
 
 void main() {
 
-  //If transparent, don't draw
   if(texture2D(alphaMap, vUv).r < 0.15){
     discard;
   }
 
 	vec3 normal;
 
-	//Flip normals when viewing reverse of the blade
 	if(gl_FrontFacing){
 		normal = normalize(vNormal);
 	}else{
 		normal = normalize(-vNormal);
 	}
 
-  //Get colour data from texture
 	vec3 textureColour = pow(texture2D(map, vUv).rgb, vec3(2.2));
 
-  //Add different green tones towards root
 	vec3 mixColour = idx > 0.75 ? vec3(0.07, 0.52, 0.06) : vec3(0.07, 0.43, 0.08);
   textureColour = mix(pow(mixColour, vec3(2.2)), textureColour, frc);
 
@@ -312,11 +282,9 @@ void main() {
   vec3 ambient = textureColour;
 	vec3 lightDir = normalize(sunDirection);
 
-  //How much a fragment faces the light
 	float dotNormalLight = dot(normal, lightDir);
   float diff = max(dotNormalLight, 0.0);
 
-  //Colour when lit by light
   vec3 diffuse = diff * lightTimesTexture;
 
   float sky = max(dot(normal, vec3(0,1,0)), 0.0);
@@ -324,13 +292,10 @@ void main() {
 
   vec3 viewDirection = normalize(cameraPosition - vPosition);
   vec3 halfwayDir = normalize(lightDir + viewDirection);
-  //How much a fragment directly reflects the light to the camera
   float spec = pow(max(dot(normal, halfwayDir), 0.0), shininess);
 
-  //Colour of light sharply reflected into the camera
   vec3 specular = spec * specularColour * lightColour;
 
-	//https://en.wikibooks.org/wiki/GLSL_Programming/Unity/Translucent_Surfaces
 	vec3 diffuseTranslucency = vec3(0);
 	vec3 forwardTranslucency = vec3(0);
 	float dotViewLight = dot(-lightDir, viewDirection);
@@ -343,33 +308,31 @@ void main() {
 
   vec3 col = 0.3 * skyLight * textureColour + ambientStrength * ambient + diffuseStrength * diffuse + specularStrength * specular + diffuseTranslucency + forwardTranslucency;
 
-  //Tonemapping
   col = ACESFilm(col);
 
-  //Gamma correction 1.0/2.2 = 0.4545...
 	col = pow(col, vec3(0.4545));
 
-	//Add a shadow towards root
 	col = mix(vec3(0.0, 0.2, 0.0), col, frc);
 
   gl_FragColor = vec4(col, 1.0);
 }`;
+
         const grassBaseGeometry = new THREE.PlaneGeometry(bladeWidth, bladeHeight, 1, joints);
         grassBaseGeometry.translate(0, bladeHeight / 2, 0);
 
         const vertex = new THREE.Vector3();
         const quaternion0 = new THREE.Quaternion();
         const quaternion1 = new THREE.Quaternion();
-        let x, y, z, w, angle, sinAngle, rotationAxis;
+        let x, angle, sinAngle, rotationAxis;
 
         // Rotate around Y
         angle = 0.05;
         sinAngle = Math.sin(angle / 2.0);
         rotationAxis = new THREE.Vector3(0, 1, 0);
         x = rotationAxis.x * sinAngle;
-        y = rotationAxis.y * sinAngle;
-        z = rotationAxis.z * sinAngle;
-        w = Math.cos(angle / 2.0);
+        let y = rotationAxis.y * sinAngle;
+        let z = rotationAxis.z * sinAngle;
+        let w = Math.cos(angle / 2.0);
         quaternion0.set(x, y, z, w);
 
         // Rotate around X
@@ -393,12 +356,10 @@ void main() {
         w = Math.cos(angle / 2.0);
         quaternion1.set(x, y, z, w);
 
-        // Combine rotations to a single quaternion
         quaternion0.multiply(quaternion1);
 
         const quaternion2 = new THREE.Quaternion();
 
-        // Bend grass base geometry for more organic look
         for (let v = 0; v < grassBaseGeometry.attributes.position.array.length; v += 3) {
             quaternion2.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2);
             vertex.x = grassBaseGeometry.attributes.position.array[v];
@@ -413,8 +374,6 @@ void main() {
         }
 
         grassBaseGeometry.computeVertexNormals();
-        const baseMaterial = new THREE.MeshNormalMaterial({ side: THREE.DoubleSide });
-        const baseBlade = new THREE.Mesh(grassBaseGeometry, baseMaterial);
 
         const instancedGeometry = new THREE.InstancedBufferGeometry();
         instancedGeometry.index = grassBaseGeometry.index;
@@ -430,17 +389,14 @@ void main() {
 
             indices.push(i / instances);
 
-            // Offset of the roots
             x = Math.random() * width - width / 2;
-            z = Math.random() * width - width / 2;
-            y = 0;
+            const z = Math.random() * width - width / 2;
+            const y = 0;
             offsets.push(x, y, z);
 
-            // Random orientation
             const angle = Math.PI - Math.random() * (2 * Math.PI);
             halfRootAngles.push(Math.sin(0.5 * angle), Math.cos(0.5 * angle));
 
-            // Define variety in height
             if (i % 3 != 0) {
                 scales.push(2.0 + Math.random() * 1.25);
             } else {
@@ -458,13 +414,12 @@ void main() {
         instancedGeometry.setAttribute('halfRootAngle', halfRootAngleAttribute);
         instancedGeometry.setAttribute('index', indexAttribute);
 
-        // Define the material, specifying attributes, uniforms, shaders etc.
         const grassMaterial = new THREE.RawShaderMaterial({
             uniforms: {
                 time: { type: 'float', value: 0 },
                 delta: { type: 'float', value: delta },
-                posX: { type: 'float', value: pos.x },
-                posZ: { type: 'float', value: pos.y },
+                posX: { type: 'float', value: 0.01 },
+                posZ: { type: 'float', value: 0.01 },
                 radius: { type: 'float', value: radius },
                 width: { type: 'float', value: width },
                 map: { value: grassTexture },
@@ -493,123 +448,15 @@ void main() {
         grass.scale.set(0.4, 0.4, 0.4);
         grass.position.set(54, 6, -48);
 
-        function updateSunPosition() {
-            const sunDirection = new THREE.Vector3(Math.sin(azimuth), Math.sin(elevation), -Math.cos(azimuth));
-            grassMaterial.uniforms.sunDirection.value = sunDirection;
-        }
-
-        //************** Draw **************
-        //************** User movement **************
-        let forward = false;
-        let backward = false;
-        let left = false;
-        let right = false;
-
-        function keyDown(e) {
-            if (e.keyCode === 38 || e.keyCode === 40) {
-                e.preventDefault();
-            }
-            if (e.keyCode === 87 || e.keyCode === 38) {
-                forward = true;
-            }
-            if (e.keyCode === 83 || e.keyCode === 40) {
-                backward = true;
-            }
-            if (e.keyCode === 65 || e.keyCode === 37) {
-                left = true;
-            }
-            if (e.keyCode === 68 || e.keyCode === 39) {
-                right = true;
-            }
-        }
-
-        function keyUp(e) {
-            if (e.keyCode === 87 || e.keyCode === 38) {
-                forward = false;
-            }
-            if (e.keyCode === 83 || e.keyCode === 40) {
-                backward = false;
-            }
-            if (e.keyCode === 65 || e.keyCode === 37) {
-                left = false;
-            }
-            if (e.keyCode === 68 || e.keyCode === 39) {
-                right = false;
-            }
-        }
-
-        document.addEventListener('keydown', keyDown);
-        document.addEventListener('keyup', keyUp);
-
-        function cross(a, b) {
-            return {
-                x: a.y * b.z - a.z * b.y,
-                y: a.z * b.x - a.x * b.z,
-                z: a.x * b.y - a.y * b.x
-            };
-        }
-
-        const upVector = new THREE.Vector3(0, 1, 0);
-
-        // Find the height of the spherical world at given x,z position
-        function placeOnSphere(v) {
-            const theta = Math.acos(v.z / radius);
-            const phi = Math.acos(v.x / (radius * Math.sin(theta)));
-            let sV = radius * Math.sin(theta) * Math.sin(phi);
-            // If undefined, set to default value
-            if (sV !== sV) {
-                sV = v.y;
-            }
-            return sV;
-        }
-
-        const viewDirection = new THREE.Vector3();
-
-        function move(dT) {
-            self.app.camera.getWorldDirection(viewDirection);
-            const length = Math.sqrt(viewDirection.x * viewDirection.x + viewDirection.z * viewDirection.z);
-            viewDirection.x /= length;
-            viewDirection.z /= length;
-            if (forward) {
-                pos.x += dT * speed * viewDirection.x;
-                pos.y += dT * speed * viewDirection.z;
-            }
-            if (backward) {
-                pos.x -= dT * speed * viewDirection.x;
-                pos.y -= dT * speed * viewDirection.z;
-            }
-            if (left) {
-                const rightVector = cross(upVector, viewDirection);
-                pos.x += dT * speed * rightVector.x;
-                pos.y += dT * speed * rightVector.z;
-            }
-            if (right) {
-                const rightVector = cross(upVector, viewDirection);
-                pos.x -= dT * speed * rightVector.x;
-                pos.y -= dT * speed * rightVector.z;
-            }
-
-            if (groundShader) {
-                groundShader.uniforms.posX.value = pos.x;
-                groundShader.uniforms.posZ.value = pos.y;
-                groundShader.uniforms.radius.value = radius;
-            }
-            grassMaterial.uniforms.posX.value = pos.x;
-            grassMaterial.uniforms.posZ.value = pos.y;
-            grassMaterial.uniforms.radius.value = radius;
-        }
-
         let time = 0;
         let lastFrame = Date.now();
         let thisFrame;
         let dT = 0;
 
         function draw() {
-            // Update time
             thisFrame = Date.now();
             dT = (thisFrame - lastFrame) / 200.0;
             time += dT;
-            move(dT);
             lastFrame = thisFrame;
 
             grassMaterial.uniforms.time.value = time;
