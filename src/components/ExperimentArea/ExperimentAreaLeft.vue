@@ -1,37 +1,17 @@
 <template>
-    <div id="leftContainer" @click="getMeshByUUIDDispose">
-        <div id='leftToolClass'>
-            <div class="rightToolClassSub">
-                <a-icon type="api" style="color: #ffffff"/>
-            </div>
-            <div class="rightToolClassSub">
-                <a-icon type="environment" style="color: #ffffff"/>
-            </div>
-            <div class="rightToolClassSub">
-                <a-icon type="eye-invisible" style="color: #ffffff"/>
-            </div>
-        </div>
-
+    <div id="leftContainer" @click="clearMeshSelection">
         <div id="leftToolClassSub">
-            <a-tree
-                show-line
-                v-model="checkedKeys"
-                checkable
-                :expanded-keys="expandedKeys"
-                :auto-expand-parent="autoExpandParent"
-                :selected-keys="selectedKeys"
-                :tree-data="treeData"
-                @expand="onExpand"
-                @select="onSelect"
-                @click="clickTree"
-                @rightClick="onRightClick"
+            <el-tree
+                ref="tree"
+                :data="treeData"
+                :props="defaultProps"
+                highlight-current
+                node-key="key"
+                show-checkbox
+                @node-click="handleNodeSelect"
+                @check-change="handleCheckChange"
+                @node-expand="handleNodeExpand"
             />
-
-            <div id="leftSubMenu" v-if="leftSubMenu">
-                <a-button type="primary" size="small" @click="addAnimationv">
-                    添加动画
-                </a-button>
-            </div>
         </div>
     </div>
 </template>
@@ -39,8 +19,10 @@
 <script>
 export default {
     props: {
-        app3D: Object,
-        required: true
+        app3D: {
+            type: Object,
+            required: true
+        }
     },
     data() {
         return {
@@ -49,127 +31,69 @@ export default {
             checkedKeys: [],
             selectedKeys: [],
             treeData: [],
-            leftSubMenu: false,
-            rightSelectMeshUUID: null
+            selectedMeshUUID: null,
+            defaultProps: {
+                children: 'children',
+                label: 'title'
+            }
         }
     },
     watch: {
         checkedKeys(val) {
-            console.log('onCheck', val);
+            console.log('Checked Keys:', val);
         },
     },
     methods: {
-        addAnimationv() {
-            this.leftSubMenu = false
-            const see = this.rightSelectMeshUUID
-            this.$parent.startAnimatioinEditor()
-            this.rightSelectMeshUUID = null
-        },
-        onRightClick(selectedKeys) {
-            const eventKey = selectedKeys.node.eventKey
-            const event = selectedKeys.event
-            this.leftSubMenu = true
-            this.$nextTick(function () {
-                const dom = document.getElementById('leftSubMenu')
-                const father = document.getElementById('leftToolClassSub')
-                const res = father.getClientRects()
-                dom.style.left = event.clientX.toString() + 'px'
-                dom.style.top = event.clientY.toString() - res[0].top + 'px'
-            })
-            this.rightSelectMeshUUID = selectedKeys.node.eventKey
-        },
-        onExpand(expandedKeys) {
-            // console.log('onExpand', expandedKeys);
-            // if not set autoExpandParent to false, if children expanded, parent can not collapse.
-            // or, you can remove all expanded children keys.
+        handleNodeExpand(expandedKeys) {
             this.expandedKeys = expandedKeys;
             this.autoExpandParent = false;
         },
-        onCheck(checkedKeys) {
+        handleCheckChange(checkedKeys) {
             this.checkedKeys = checkedKeys;
         },
-        onSelect(selectedKeys, info) {
-            debugger
-            window.app3D.getMeshByUUID(selectedKeys)
-            this.selectedKeys = selectedKeys;
+        handleNodeSelect(node) {
+            window.app3D.getMeshByUUID(node.key);
+            this.selectedKeys = [node.key];
         },
         updateTreeData() {
-            setTimeout(()=> {
-                this.treeData = window.app3D.getSceneChildren()
-            },500)
+            setTimeout(() => {
+                this.treeData = window.app3D.getSceneChildren();
+            }, 500);
         },
-        clickTree(e) {
-            e.stopPropagation()
-        },
-        getMeshByUUIDDispose() {
-            window.app3D.getMeshByUUIDDispose()
-            this.selectedKeys = []
+        clearMeshSelection() {
+            window.app3D.clearSelectedMesh();
+            this.selectedKeys = [];
         }
     },
     mounted() {
-        this.$nextTick(function () {
-            setTimeout(()=> {
-                this.treeData = window.app3D.getSceneChildren()
-                window.app3D.eventBus.addEventListener('updateLeftTreeData', this.updateTreeData.bind(this))
-            },500)
-        })
+        setTimeout(() => {
+            this.treeData = window.app3D.getSceneChildren();
+            window.app3D.eventBus.addEventListener('updateTreeData', this.updateTreeData);
+        }, 500);
+    },
+    beforeDestroy() {
+        window.app3D.eventBus.removeEventListener('updateTreeData', this.updateTreeData);
     }
 };
 </script>
 
 <style lang="scss">
-
-/*定义滚动条高宽及背景
- 高宽分别对应横竖滚动条的尺寸*/
-::-webkit-scrollbar {
-    width: 6px;
-    height: 16px;
-    background-color: #F5F5F5;
-}
-
-/*定义滚动条轨道
- 内阴影+圆角*/
-::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background-color: #F5F5F5;
-}
-
-/*定义滑块
- 内阴影+圆角*/
-::-webkit-scrollbar-thumb {
-    //border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    background-color: #555;
-}
-
 #leftContainer {
     position: absolute;
     left: 0px;
     top: 46px;
     overflow: auto;
     width: 300px;
-    height: calc(100vh);
+    height: calc(100vh - 46px);
     border: solid #99A1A9 1px;
-
-    #leftToolClass {
-        display: inline;
-        float: left;
-        width: 25px;
-        height: calc(100vh);
-        box-shadow: 1px 1px 1px #7BA4B4;
-
-        .rightToolClassSub {
-            margin-top: 10px;
-            display: inline-block;
-            background: #1890FF;
-        }
-    }
+    background-color: #1e2a38;
 
     #leftToolClassSub {
         display: inline;
         float: left;
         margin-left: 2px;
+        width: 100%;
+        height: calc(100vh - 46px);
 
         #leftSubMenu {
             position: absolute;
@@ -177,23 +101,23 @@ export default {
             height: 100px;
         }
 
-        .anticon svg {
-            display: inline-block;
-            color: white;
-        }
+        .el-tree {
+            background-color: #1e2a38;
+            color: #ecf0f1;
+            width: 100%;
 
-        .ant-tree.ant-tree-show-line li span.ant-tree-switcher {
-            color: rgba(0, 0, 0, 0.45);
-        }
+            .el-tree-node__label {
+                color: #ecf0f1;
+            }
 
-        .ant-tree li .ant-tree-node-content-wrapper {
-            color: #87e8de;
-        }
+            .el-tree-node__content {
+                background-color: transparent !important;
+            }
 
-        .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected {
-            background-color: #1890FF;
+            .el-tree-node.is-current .el-tree-node__content {
+                background-color: #3498db !important;
+            }
         }
-
     }
 }
 </style>
