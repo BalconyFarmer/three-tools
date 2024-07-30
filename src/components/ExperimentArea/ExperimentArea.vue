@@ -1,11 +1,11 @@
 <template>
     <div id="experimentAreaAll">
         <canvas id="3dCanvas" width="800px" height="800px"></canvas>
-        <ExperimentAreaLeft :app3D='app3D'></ExperimentAreaLeft>
-        <ExperimentAreaCenter :app3D='app3D'></ExperimentAreaCenter>
-        <ExperimentAreaRight :app3D='app3D'></ExperimentAreaRight>
-        <KeyFram v-if="animationEditor"></KeyFram>
-        <DigitalCityLittleWindow :app3D='app3D' v-if="showLittleWindow"></DigitalCityLittleWindow>
+        <ExperimentAreaLeft v-if="showComponents" :app3D='app3D'></ExperimentAreaLeft>
+        <ExperimentAreaCenter v-if="showComponents" :app3D='app3D'></ExperimentAreaCenter>
+        <ExperimentAreaRight v-if="showComponents" :app3D='app3D'></ExperimentAreaRight>
+        <KeyFram v-if="animationEditor && showComponents"></KeyFram>
+        <DigitalCityLittleWindow :app3D='app3D' v-if="showLittleWindow && showComponents"></DigitalCityLittleWindow>
     </div>
 </template>
 
@@ -81,8 +81,8 @@ export default {
 
             app3D: null,
             showLittleWindow: false,
-            animationEditor: false
-
+            animationEditor: false,
+            showComponents: false // 新增变量控制组件显示
         }
     },
     methods: {
@@ -200,6 +200,11 @@ export default {
 
         this.promiseTest()
         this.asyncAwaitTest()
+
+        // 500毫秒后显示组件
+        setTimeout(() => {
+            this.showComponents = true
+        }, 500)
     },
     beforeDestroy() {
         this.app3D.destroy()

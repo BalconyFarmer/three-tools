@@ -94,7 +94,9 @@ export default {
             this.selectedKeys = selectedKeys;
         },
         updateTreeData() {
-            this.treeData = this.app3D.getSceneChildren()
+            setTimeout(()=> {
+                this.treeData = this.app3D.getSceneChildren()
+            },500)
         },
         clickTree(e) {
             e.stopPropagation()
@@ -106,8 +108,10 @@ export default {
     },
     mounted() {
         this.$nextTick(function () {
-            this.treeData = this.app3D.getSceneChildren()
-            this.app3D.eventBus.addEventListener('updateLeftTreeData', this.updateTreeData.bind(this))
+            setTimeout(()=> {
+                this.treeData = this.app3D.getSceneChildren()
+                this.app3D.eventBus.addEventListener('updateLeftTreeData', this.updateTreeData.bind(this))
+            },500)
         })
     }
 };
