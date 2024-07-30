@@ -18,12 +18,12 @@ export default {
         this.$nextTick(function () {
             const canvas = document.getElementById("geometryCanvas");
             const content = document.getElementById("geometryContent");
-            this.app3D.multipleElements.makeGeometries()
-            this.app3D.multipleElements.run(canvas, content)
+            window.app3D.multipleElements.makeGeometries()
+            window.app3D.multipleElements.run(canvas, content)
         })
     },
     beforeDestroy() {
-        this.app3D.multipleElements.destroy()
+        window.app3D.multipleElements.destroy()
     }
 }
 </script>

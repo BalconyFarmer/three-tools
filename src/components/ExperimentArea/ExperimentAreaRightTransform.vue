@@ -95,10 +95,6 @@
 
 <script>
 export default {
-    props: {
-        app3D: Object,
-        required: true
-    },
     data() {
         return {
             meshData: {
@@ -169,7 +165,7 @@ export default {
     },
     mounted() {
         this.$nextTick(function () {
-            this.app3D.eventBus.addEventListener('changeMesh', this.onChangeMesh.bind(this))
+            window.app3D.eventBus.addEventListener('changeMesh', this.onChangeMesh.bind(this))
         })
     }
 }

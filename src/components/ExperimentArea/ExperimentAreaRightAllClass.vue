@@ -97,166 +97,166 @@ export default {
     methods: {
 
         addAdvancedMaterial() {
-            this.app3D.advancedMaterial.add()
+            window.app3D.advancedMaterial.add()
         },
 
         addFlowPipe() {
-            this.app3D.flowPipes.creatPipe()
+            window.app3D.flowPipes.creatPipe()
 
         },
         addAnimationTest() {
             const mesh = serverAdress + '/3Dstatic/model3D/警车/警车/obj/policeCar.obj'
             const times = [0, 5, 10]
             const positions = [-164, 87, -0.9, -71, 87, 6.9, -71, 87, 109]
-            this.app3D.animation.start(mesh, times, positions)
+            window.app3D.animation.start(mesh, times, positions)
         },
         addSkimmer() {
             const mesh = serverAdress + '/3Dstatic/model3D/蛋分/SimLab_2022-10-20-15-40-52.obj'
-            this.app3D.objLoaders.loadOBJ(mesh,"蛋分")
+            window.app3D.objLoaders.loadOBJ(mesh,"蛋分")
         },
         addGUITest() {
-            this.app3D.GUI3D.start()
+            window.app3D.GUI3D.start()
 
         },
         addCameraHelper() {
-            this.app3D.helper.addCameraHelper()
+            window.app3D.helper.addCameraHelper()
         },
         startTestBSP() {
-            // this.app3D.bSPCalculate.startTestBSP()
+            // window.app3D.bSPCalculate.startTestBSP()
 
         },
         addPolarGridHelper() {
-            this.app3D.helper.addPolarGridHelper()
+            window.app3D.helper.addPolarGridHelper()
 
         },
         addHemisphereLightHelper() {
-            this.app3D.helper.addHemisphereLightHelper()
+            window.app3D.helper.addHemisphereLightHelper()
 
         },
         addFaceNormalsHelper() {
-            this.app3D.helper.addFaceNormalsHelper()
+            window.app3D.helper.addFaceNormalsHelper()
 
         },
         addVertexNormalsHelper() {
-            this.app3D.helper.addVertexNormalsHelper()
+            window.app3D.helper.addVertexNormalsHelper()
 
         },
         addEventCube() {
-            this.app3D.eventCube.addCube()
+            window.app3D.eventCube.addCube()
 
         },
         addFBX() {
-            this.app3D.FBXLoader.loadFBX(`${serverAdress}/3Dstatic/model3D/SambaDancing.fbx`)
+            window.app3D.FBXLoader.loadFBX(`${serverAdress}/3Dstatic/model3D/SambaDancing.fbx`)
         },
         makeMeshPoint() {
-            this.app3D.makeMeshPoint.start()
+            window.app3D.makeMeshPoint.start()
 
         },
         makeMeshLine() {
-            this.app3D.makeMeshLine.start()
+            window.app3D.makeMeshLine.start()
 
         },
         makePlayVideo() {
-            this.app3D.playVideo.mamkeMesh()
+            window.app3D.playVideo.mamkeMesh()
 
         },
         addShadows() {
-            this.app3D.shadowLight.init()
+            window.app3D.shadowLight.init()
 
         },
         addCanvasAnimation() {
-            this.app3D.canvasTexture.addMesh()
+            window.app3D.canvasTexture.addMesh()
 
         },
         addMatrix4Practice() {
-            this.app3D.matrix4Practice.start()
+            window.app3D.matrix4Practice.start()
 
         },
         addEulerPractice() {
-            this.app3D.eulerPractice.start()
+            window.app3D.eulerPractice.start()
 
         },
         addQuaternionPractice() {
-            this.app3D.quaternionPractice.makeMesh()
+            window.app3D.quaternionPractice.makeMesh()
 
         },
         addOutlineShineEffect() {
-            this.app3D.outlineShineEffect.run()
+            window.app3D.outlineShineEffect.run()
 
         },
         makeBufferGeometryMesh() {
-            this.app3D.makeBufferGeometryMesh.start()
+            window.app3D.makeBufferGeometryMesh.start()
 
         },
         makeGeometryMesh() {
-            this.app3D.makeGeometryMesh.start()
+            window.app3D.makeGeometryMesh.start()
 
         },
         makeOfflineRender() {
-            this.app3D.offLineRender.start()
+            window.app3D.offLineRender.start()
 
         },
 
         makePhysiSimulate() {
-            this.app3D.physiSimulate.init()
+            window.app3D.physiSimulate.init()
 
         },
         makeCar() {
-            this.app3D.car.init()
+            window.app3D.car.init()
 
         },
         JudgeFace3() {
-            this.app3D.JudgeFace3.init()
+            window.app3D.JudgeFace3.init()
 
         },
         addSound() {
-            this.app3D.sound.start()
+            window.app3D.sound.start()
 
         },
         addCustomCube() {
-            this.app3D.addCustomCube()
+            window.app3D.addCustomCube()
         },
         startAutoRunCamera() {
-            this.app3D.controls.startAutoRun()
+            window.app3D.controls.startAutoRun()
         },
 
         startPersonalControl() {
             const position = new THREE.Vector3(0, 0, 0)
             const lookPosition = new THREE.Vector3(100, 100, 100)
-            this.app3D.controls.startFirstPersonControls(position, lookPosition)
+            window.app3D.controls.startFirstPersonControls(position, lookPosition)
         },
 
         stopPersonalControl() {
-            this.app3D.controls.stopFirstPersonControls()
+            window.app3D.controls.stopFirstPersonControls()
 
         },
         addBackgroundImg() {
-            this.app3D.skyBox.addJpgBackground()
+            window.app3D.skyBox.addJpgBackground()
         },
         addLightStrick() {
-            this.app3D.lightningStrike.add()
+            window.app3D.lightningStrike.add()
         },
         bloomOnly() {
-            this.app3D.bloomOnly.bloom()
+            window.app3D.bloomOnly.bloom()
         },
         addCloud() {
             let P1 = [10, 20, -21]
             let size1 = 10
-            this.app3D.cloud.addCloud(P1, size1)
+            window.app3D.cloud.addCloud(P1, size1)
 
             let P2 = [0, 37, 6]
             let size2 = 15
-            this.app3D.cloud.addCloud(P2, size2)
+            window.app3D.cloud.addCloud(P2, size2)
         },
         addGrass() {
-            this.app3D.grass.add()
+            window.app3D.grass.add()
         },
         addBackgroundBox() {
-            this.app3D.skyBox.addSkyBox()
+            window.app3D.skyBox.addSkyBox()
 
         },
         addWater() {
-            this.app3D.waterPlane.add()
+            window.app3D.waterPlane.add()
         },
         startAnimatioinEditor() {
             this.$parent.$parent.startAnimatioinEditor()

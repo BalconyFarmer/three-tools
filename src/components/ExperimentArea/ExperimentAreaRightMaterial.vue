@@ -18,12 +18,12 @@ export default {
         this.$nextTick(function () {
             const canvas = document.getElementById("c");
             const content = document.getElementById("content");
-            this.app3D.multipleElements.makeMaterials()
-            this.app3D.multipleElements.run(canvas, content)
+            window.app3D.multipleElements.makeMaterials()
+            window.app3D.multipleElements.run(canvas, content)
         })
     },
     beforeDestroy() {
-        this.app3D.multipleElements.destroy()
+        window.app3D.multipleElements.destroy()
     }
 }
 </script>

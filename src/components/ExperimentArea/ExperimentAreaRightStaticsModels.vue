@@ -98,12 +98,12 @@ export default {
             this.raycaster = new THREE.Raycaster();
             this.mouse = new THREE.Vector2();
 
-            this.mouse.x = (event.clientX / this.app3D.dom.width) * 2 - 1;
-            this.mouse.y = -(event.clientY / this.app3D.dom.height) * 2 + 1;
-            this.raycaster.setFromCamera(this.mouse, this.app3D.camera);
+            this.mouse.x = (event.clientX / window.app3D.dom.width) * 2 - 1;
+            this.mouse.y = -(event.clientY / window.app3D.dom.height) * 2 + 1;
+            this.raycaster.setFromCamera(this.mouse, window.app3D.camera);
 
             let target = []
-            this.app3D.scene.children.forEach(item => {
+            window.app3D.scene.children.forEach(item => {
                 target.push(item)
                 if (item.type === 'Group') {
                     item.children.forEach(item => {
@@ -117,7 +117,7 @@ export default {
                 if (intersects[0].point) {
                     const vec3 = intersects[0].point
                     console.warn('intersects[0].point', intersects[0].point)
-                    this.app3D.objLoaders.loadOBJ(item.index, item.name, vec3)
+                    window.app3D.objLoaders.loadOBJ(item.index, item.name, vec3)
                 }
             }
 
