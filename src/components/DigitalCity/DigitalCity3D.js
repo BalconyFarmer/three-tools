@@ -17,7 +17,6 @@ export class DigitalCity3D {
         this.addFlowPipe();
         this.addCar();
         this.addGUI();
-        this.addFloorGround();
         this.addShadow();
         this.loadOBJ();
     }
@@ -30,7 +29,6 @@ export class DigitalCity3D {
         lookAtPosition.y += x;
         this.app3D.camera.lookAt(lookAtPosition);
 
-        this.app3D.scene.background = new THREE.Color(0xE7E9E4);
         this.app3D.controls.setLimit(-Math.PI / 2, Math.PI / 2, 0, Math.PI / 2, 10, 800);
         this.app3D.controls.startAutoRun(0.2);
 
@@ -94,16 +92,6 @@ export class DigitalCity3D {
         });
     }
 
-
-    addFloorGround() {
-        const material = new THREE.MeshBasicMaterial({color: 0xE7E9E4, dithering: true});
-        const plane = new THREE.PlaneGeometry(800, 800);  // 修改此行
-        const mesh = new THREE.Mesh(plane, material);
-        mesh.position.set(0, 0, 0);
-        mesh.rotation.x = -Math.PI * 0.5;
-
-        this.app3D.scene.add(mesh);
-    }
 
     addCar() {
 
