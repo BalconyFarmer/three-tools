@@ -35,7 +35,6 @@ import {MultipleElements} from './undefinedNow/MultipleElements';
 import {AdvancedMaterial} from './materials/AdvancedMaterial';
 import {SkyBox} from './sceneBasic/SkyBox';
 import {WaterPlane} from './materials/WaterPlane';
-import {LightningStrike} from './LightningStrike';
 import {BloomOnly} from "./Bloom/BloomOnly";
 import {Grass} from "./Grass";
 import {Cloud} from "./Cloud";
@@ -91,7 +90,6 @@ export default class App3D {
         this.advancedMaterial = new AdvancedMaterial(this);
         this.skyBox = new SkyBox(this);
         this.waterPlane = new WaterPlane(this);
-        this.lightningStrike = new LightningStrike(this);
         this.bloomOnly = new BloomOnly(this);
         this.cloud = new Cloud(this);
         this.grass = new Grass(this);

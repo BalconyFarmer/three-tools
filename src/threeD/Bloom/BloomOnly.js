@@ -1,25 +1,24 @@
 import * as THREE from "three";
-import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
-import {UnrealBloomPass} from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import {ShaderPass} from 'three/examples/jsm/postprocessing/ShaderPass.js';
-import {GUI} from 'three/examples/jsm/libs/lil-gui.module.min.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 
 /**
  * 全局泛光
  */
 export class BloomOnly {
     constructor(app) {
-        this.app = app
+        this.app = app;
     }
 
     bloom() {
+        const self = this;
 
-        const self = this
-
-        let scene = this.app.scene
-        let camera = this.app.camera
-        let renderer = this.app.renderer
+        let scene = this.app.scene;
+        let camera = this.app.camera;
+        let renderer = this.app.renderer;
         renderer.toneMapping = THREE.ReinhardToneMapping;
         renderer.toneMappingExposure = 1;
 
@@ -42,14 +41,34 @@ export class BloomOnly {
         bloomComposer.addPass(renderScene);
         bloomComposer.addPass(bloomPass);
 
+        const vertexShader = `
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `;
+
+        const fragmentShader = `
+            uniform sampler2D baseTexture;
+            uniform sampler2D bloomTexture;
+
+            varying vec2 vUv;
+
+            void main() {
+                vec4 bloom = texture2D(bloomTexture, vUv);
+                gl_FragColor = bloom;
+            }
+        `;
+
         const finalPass = new ShaderPass(
             new THREE.ShaderMaterial({
                 uniforms: {
-                    baseTexture: {value: null},
-                    bloomTexture: {value: bloomComposer.renderTarget2.texture}
+                    baseTexture: { value: null },
+                    bloomTexture: { value: bloomComposer.renderTarget2.texture }
                 },
-                vertexShader: document.getElementById('vertexshader').textContent,
-                fragmentShader: document.getElementById('fragmentshader').textContent,
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader,
                 defines: {}
             }), "baseTexture"
         );
@@ -72,8 +91,8 @@ export class BloomOnly {
         let l = new THREE.LineSegments(g, m);
         scene.add(l);
 
-        let darkMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
-        let lightMaterial = new THREE.MeshLambertMaterial({color: 0xffff00});
+        let darkMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+        let lightMaterial = new THREE.MeshLambertMaterial({ color: 0xffff00 });
         let box = new THREE.Mesh(new THREE.BoxGeometry(4, 4, 4), lightMaterial);
         scene.add(box);
 
@@ -81,23 +100,16 @@ export class BloomOnly {
             camera.aspect = innerWidth / innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(innerWidth, innerHeight);
-        })
-
-//let clock = new THREE.Clock();
+        });
 
         renderer.setAnimationLoop(() => {
-            //let t = clock.getElapsedTime() * 0.05;
-
             box.material = darkMaterial;
             bloomComposer.render();
             box.material = lightMaterial;
             finalComposer.render();
-
-            //renderer.render(scene, camera);
-        })
+        });
 
         function NestedBoxesGeometry(minSize, maxSize, layers = 2, innerColor = 0xffffff, outerColor = 0x7f7f7f) {
-
             layers = Math.max(2, layers);
 
             let cI = new THREE.Color(innerColor);
@@ -108,7 +120,7 @@ export class BloomOnly {
                 [0, 0, 0], [1, 0, 0], [1, 0, 1], [0, 0, 1],
                 [0, 1, 0], [1, 1, 0], [1, 1, 1], [0, 1, 1]
             ].map(p => {
-                return new THREE.Vector3(p[0], p[1], p[2]).subScalar(0.5)
+                return new THREE.Vector3(p[0], p[1], p[2]).subScalar(0.5);
             });
             let baseIndex = [
                 0, 1, 1, 2, 2, 3, 3, 0,
@@ -133,19 +145,19 @@ export class BloomOnly {
                     col.push(cM.r, cM.g, cM.b);
                 });
                 baseIndex.forEach(id => {
-                    idx.push(id + i * 8)
-                })
+                    idx.push(id + i * 8);
+                });
 
                 if (i < (layers - 1)) {
                     connect.forEach(c => {
                         idx.push(c + i * 8);
-                    })
+                    });
                 }
             }
 
             let g = new THREE.BufferGeometry().setFromPoints(pts);
-            g.setAttribute("color", new THREE.Float32BufferAttribute(col, 3));
-            g.setAttribute("layer", new THREE.Float32BufferAttribute(layer, 1));
+            g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+            g.setAttribute('layer', new THREE.Float32BufferAttribute(layer, 1));
             g.setIndex(idx);
 
             return g;
@@ -171,6 +183,4 @@ export class BloomOnly {
             bloomPass.radius = Number(value);
         });
     }
-
-
 }

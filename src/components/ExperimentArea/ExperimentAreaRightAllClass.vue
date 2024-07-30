@@ -2,8 +2,7 @@
     <div id="rightToolClassSub">
         <a @click="clearAll">清空</a>
         <strong>环境相关</strong>
-        <a @click="addLightStrick">闪电</a>
-        <a @click="bloomOnly">bloomOnly</a>
+        <a @click="bloomOnly">局部泛光</a>
         <a @click="addCloud">云</a>
         <a @click="addGrass">草坪</a>
         <a @click="addBackgroundImg">背景图片</a>
@@ -67,7 +66,7 @@
 
 <script>
 import * as THREE from "three";
-import { serverAdress } from "@/config";
+import {serverAdress} from "@/config";
 import Canvas from "./Canvas/Canvas";
 
 export default {
@@ -188,9 +187,6 @@ export default {
         addBackgroundImg() {
             window.app3D.skyBox.addJpgBackground();
         },
-        addLightStrick() {
-            window.app3D.lightningStrike.add();
-        },
         clearAll() {
             window.app3D.sceneManager.clearScene();
         },
@@ -199,8 +195,8 @@ export default {
         },
         addCloud() {
             const clouds = [
-                { position: [10, 20, -21], size: 10 },
-                { position: [0, 37, 6], size: 15 }
+                {position: [10, 20, -21], size: 10},
+                {position: [0, 37, 6], size: 15}
             ];
             clouds.forEach(cloud => window.app3D.cloud.addCloud(cloud.position, cloud.size));
         },
@@ -221,7 +217,8 @@ export default {
         }
     },
     mounted() {
-        this.$nextTick(function () {});
+        this.$nextTick(function () {
+        });
     }
 };
 </script>
