@@ -1,66 +1,63 @@
 import * as THREE from "three";
 
 /**
- * 模拟草地,但是引入文件的依赖关系不正确
- * https://al-ro.github.io/projects/grass/
+ * 模拟草地
  */
 export class Grass {
     constructor(app) {
-        this.app = app
+        this.app = app;
     }
 
     add() {
-        const self = this
-        var width = 120;
-        var resolution = 64;
-        var delta = width / resolution;
-        var pos = new THREE.Vector2(0.01, 0.01);
-        var radius = 240;
-        var speed = 3;
-        var bladeHeight = 1;
-        var joints = 4;
-        var bladeWidth = 0.12;
-        var instances = 40000;
-        var azimuth = 0.4;
-        var elevation = 0.2;
-        var viewDirection = new THREE.Vector3();
+        const self = this;
+        const width = 120;
+        const resolution = 64;
+        const delta = width / resolution;
+        const pos = new THREE.Vector2(0.01, 0.01);
+        const radius = 240;
+        const speed = 3;
+        const bladeHeight = 1;
+        const joints = 4;
+        const bladeWidth = 0.12;
+        const instances = 40000;
+        const azimuth = 0.4;
+        const elevation = 0.2;
 
-        var ambientStrength = 0.7;
-        var translucencyStrength = 1.5;
-        var specularStrength = 0.5;
-        var diffuseStrength = 1.5;
-        var shininess = 256;
-        var sunColour = new THREE.Vector3(1.0, 1.0, 1.0);
-        var specularColour = new THREE.Vector3(1.0, 1.0, 1.0);
+        const ambientStrength = 0.7;
+        const translucencyStrength = 1.5;
+        const specularStrength = 0.5;
+        const diffuseStrength = 1.5;
+        const shininess = 256;
+        const sunColour = new THREE.Vector3(1.0, 1.0, 1.0);
+        const specularColour = new THREE.Vector3(1.0, 1.0, 1.0);
 
-
-        var loader = new THREE.TextureLoader();
+        const loader = new THREE.TextureLoader();
         loader.crossOrigin = '';
-        var grassTexture = loader.load('https://al-ro.github.io/images/grass/blade_diffuse.jpg');
-        var alphaMap = loader.load('https://al-ro.github.io/images/grass/blade_alpha.jpg');
-        var noiseTexture = loader.load('https://al-ro.github.io/images/grass/perlinFbm.jpg');
+        const grassTexture = loader.load('https://al-ro.github.io/images/grass/blade_diffuse.jpg');
+        const alphaMap = loader.load('https://al-ro.github.io/images/grass/blade_alpha.jpg');
+        const noiseTexture = loader.load('https://al-ro.github.io/images/grass/perlinFbm.jpg');
         noiseTexture.wrapS = THREE.RepeatWrapping;
         noiseTexture.wrapT = THREE.RepeatWrapping;
 
-        var groundBaseGeometry = new THREE.PlaneBufferGeometry(width, width, resolution, resolution);
+        const groundBaseGeometry = new THREE.PlaneGeometry(width, width, resolution, resolution);
         groundBaseGeometry.lookAt(new THREE.Vector3(0, 1, 0));
         groundBaseGeometry.verticesNeedUpdate = true;
 
-        var groundGeometry = new THREE.PlaneBufferGeometry(width, width, resolution, resolution);
+        const groundGeometry = new THREE.PlaneGeometry(width, width, resolution, resolution);
 
         groundGeometry.setAttribute('basePosition', groundBaseGeometry.getAttribute("position"));
         groundGeometry.lookAt(new THREE.Vector3(0, 1, 0));
         groundGeometry.verticesNeedUpdate = true;
-        var groundMaterial = new THREE.MeshPhongMaterial({color: 0x000900});
+        const groundMaterial = new THREE.MeshPhongMaterial({ color: 0x000900 });
 
-        var sharedPrefix = `
+        const sharedPrefix = `
         uniform sampler2D noiseTexture;
         float getYPosition(vec2 p){
             return 8.0*(2.0*texture2D(noiseTexture, p/800.0).r - 1.0);
         }
         `;
 
-        var groundVertexPrefix = sharedPrefix + `
+        const groundVertexPrefix = sharedPrefix + `
 attribute vec3 basePosition;
 uniform float delta;
 uniform float posX;
@@ -108,14 +105,14 @@ vec3 getNormal(vec3 pos){
 }
 `;
 
-        var groundShader;
+        let groundShader;
         groundMaterial.onBeforeCompile = function (shader) {
-            shader.uniforms.delta = {value: delta};
-            shader.uniforms.posX = {value: pos.x};
-            shader.uniforms.posZ = {value: pos.y};
-            shader.uniforms.radius = {value: radius};
-            shader.uniforms.width = {value: width};
-            shader.uniforms.noiseTexture = {value: noiseTexture};
+            shader.uniforms.delta = { value: delta };
+            shader.uniforms.posX = { value: pos.x };
+            shader.uniforms.posZ = { value: pos.y };
+            shader.uniforms.radius = { value: radius };
+            shader.uniforms.width = { value: width };
+            shader.uniforms.noiseTexture = { value: noiseTexture };
             shader.vertexShader = groundVertexPrefix + shader.vertexShader;
             shader.vertexShader = shader.vertexShader.replace(
                 '#include <beginnormal_vertex>',
@@ -137,13 +134,13 @@ vec3 getNormal(vec3 pos){
             groundShader = shader;
         };
 
-        var ground = new THREE.Mesh(groundGeometry, groundMaterial);
+        const ground = new THREE.Mesh(groundGeometry, groundMaterial);
 
         ground.geometry.computeVertexNormals();
         this.app.scene.add(ground);
 
         //************** Grass **************
-        var grassVertexSource = sharedPrefix + `
+        const grassVertexSource = sharedPrefix + `
 precision mediump float;
 attribute vec3 position;
 attribute vec3 normal;
@@ -253,7 +250,7 @@ void main() {
 
 }`;
 
-        var grassFragmentSource = `
+        const grassFragmentSource = `
 precision mediump float;
 
 uniform vec3 cameraPosition;
@@ -357,15 +354,15 @@ void main() {
 
   gl_FragColor = vec4(col, 1.0);
 }`;
-        var grassBaseGeometry = new THREE.PlaneBufferGeometry(bladeWidth, bladeHeight, 1, joints);
+        const grassBaseGeometry = new THREE.PlaneGeometry(bladeWidth, bladeHeight, 1, joints);
         grassBaseGeometry.translate(0, bladeHeight / 2, 0);
 
-        let vertex = new THREE.Vector3();
-        let quaternion0 = new THREE.Quaternion();
-        let quaternion1 = new THREE.Quaternion();
+        const vertex = new THREE.Vector3();
+        const quaternion0 = new THREE.Quaternion();
+        const quaternion1 = new THREE.Quaternion();
         let x, y, z, w, angle, sinAngle, rotationAxis;
 
-        //Rotate around Y
+        // Rotate around Y
         angle = 0.05;
         sinAngle = Math.sin(angle / 2.0);
         rotationAxis = new THREE.Vector3(0, 1, 0);
@@ -375,7 +372,7 @@ void main() {
         w = Math.cos(angle / 2.0);
         quaternion0.set(x, y, z, w);
 
-        //Rotate around X
+        // Rotate around X
         angle = 0.3;
         sinAngle = Math.sin(angle / 2.0);
         rotationAxis.set(1, 0, 0);
@@ -396,18 +393,18 @@ void main() {
         w = Math.cos(angle / 2.0);
         quaternion1.set(x, y, z, w);
 
-        //Combine rotations to a single quaternion
+        // Combine rotations to a single quaternion
         quaternion0.multiply(quaternion1);
 
-        let quaternion2 = new THREE.Quaternion();
+        const quaternion2 = new THREE.Quaternion();
 
-        //Bend grass base geometry for more organic look
+        // Bend grass base geometry for more organic look
         for (let v = 0; v < grassBaseGeometry.attributes.position.array.length; v += 3) {
             quaternion2.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2);
             vertex.x = grassBaseGeometry.attributes.position.array[v];
             vertex.y = grassBaseGeometry.attributes.position.array[v + 1];
             vertex.z = grassBaseGeometry.attributes.position.array[v + 2];
-            let frac = vertex.y / bladeHeight;
+            const frac = vertex.y / bladeHeight;
             quaternion2.slerp(quaternion0, frac);
             vertex.applyQuaternion(quaternion2);
             grassBaseGeometry.attributes.position.array[v] = vertex.x;
@@ -416,34 +413,34 @@ void main() {
         }
 
         grassBaseGeometry.computeVertexNormals();
-        var baseMaterial = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
-        var baseBlade = new THREE.Mesh(grassBaseGeometry, baseMaterial);
+        const baseMaterial = new THREE.MeshNormalMaterial({ side: THREE.DoubleSide });
+        const baseBlade = new THREE.Mesh(grassBaseGeometry, baseMaterial);
 
-        var instancedGeometry = new THREE.InstancedBufferGeometry();
+        const instancedGeometry = new THREE.InstancedBufferGeometry();
         instancedGeometry.index = grassBaseGeometry.index;
         instancedGeometry.attributes.position = grassBaseGeometry.attributes.position;
         instancedGeometry.attributes.uv = grassBaseGeometry.attributes.uv;
         instancedGeometry.attributes.normal = grassBaseGeometry.attributes.normal;
-        var indices = [];
-        var offsets = [];
-        var scales = [];
-        var halfRootAngles = [];
+        const indices = [];
+        const offsets = [];
+        const scales = [];
+        const halfRootAngles = [];
 
         for (let i = 0; i < instances; i++) {
 
             indices.push(i / instances);
 
-            //Offset of the roots
+            // Offset of the roots
             x = Math.random() * width - width / 2;
             z = Math.random() * width - width / 2;
             y = 0;
             offsets.push(x, y, z);
 
-            //Random orientation
-            let angle = Math.PI - Math.random() * (2 * Math.PI);
+            // Random orientation
+            const angle = Math.PI - Math.random() * (2 * Math.PI);
             halfRootAngles.push(Math.sin(0.5 * angle), Math.cos(0.5 * angle));
 
-            //Define variety in height
+            // Define variety in height
             if (i % 3 != 0) {
                 scales.push(2.0 + Math.random() * 1.25);
             } else {
@@ -451,95 +448,95 @@ void main() {
             }
         }
 
-        var offsetAttribute = new THREE.InstancedBufferAttribute(new Float32Array(offsets), 3);
-        var scaleAttribute = new THREE.InstancedBufferAttribute(new Float32Array(scales), 1);
-        var halfRootAngleAttribute = new THREE.InstancedBufferAttribute(new Float32Array(halfRootAngles), 2);
-        var indexAttribute = new THREE.InstancedBufferAttribute(new Float32Array(indices), 1);
+        const offsetAttribute = new THREE.InstancedBufferAttribute(new Float32Array(offsets), 3);
+        const scaleAttribute = new THREE.InstancedBufferAttribute(new Float32Array(scales), 1);
+        const halfRootAngleAttribute = new THREE.InstancedBufferAttribute(new Float32Array(halfRootAngles), 2);
+        const indexAttribute = new THREE.InstancedBufferAttribute(new Float32Array(indices), 1);
 
         instancedGeometry.setAttribute('offset', offsetAttribute);
         instancedGeometry.setAttribute('scale', scaleAttribute);
         instancedGeometry.setAttribute('halfRootAngle', halfRootAngleAttribute);
         instancedGeometry.setAttribute('index', indexAttribute);
-//Define the material, specifying attributes, uniforms, shaders etc.
-        var grassMaterial = new THREE.RawShaderMaterial({
+
+        // Define the material, specifying attributes, uniforms, shaders etc.
+        const grassMaterial = new THREE.RawShaderMaterial({
             uniforms: {
-                time: {type: 'float', value: 0},
-                delta: {type: 'float', value: delta},
-                posX: {type: 'float', value: pos.x},
-                posZ: {type: 'float', value: pos.y},
-                radius: {type: 'float', value: radius},
-                width: {type: 'float', value: width},
-                map: {value: grassTexture},
-                alphaMap: {value: alphaMap},
-                noiseTexture: {value: noiseTexture},
+                time: { type: 'float', value: 0 },
+                delta: { type: 'float', value: delta },
+                posX: { type: 'float', value: pos.x },
+                posZ: { type: 'float', value: pos.y },
+                radius: { type: 'float', value: radius },
+                width: { type: 'float', value: width },
+                map: { value: grassTexture },
+                alphaMap: { value: alphaMap },
+                noiseTexture: { value: noiseTexture },
                 sunDirection: {
                     type: 'vec3',
                     value: new THREE.Vector3(Math.sin(azimuth), Math.sin(elevation), -Math.cos(azimuth))
                 },
-                cameraPosition: {type: 'vec3', value: this.app.camera.position},
-                ambientStrength: {type: 'float', value: ambientStrength},
-                translucencyStrength: {type: 'float', value: translucencyStrength},
-                diffuseStrength: {type: 'float', value: diffuseStrength},
-                specularStrength: {type: 'float', value: specularStrength},
-                shininess: {type: 'float', value: shininess},
-                lightColour: {type: 'vec3', value: sunColour},
-                specularColour: {type: 'vec3', value: specularColour},
+                cameraPosition: { type: 'vec3', value: this.app.camera.position },
+                ambientStrength: { type: 'float', value: ambientStrength },
+                translucencyStrength: { type: 'float', value: translucencyStrength },
+                diffuseStrength: { type: 'float', value: diffuseStrength },
+                specularStrength: { type: 'float', value: specularStrength },
+                shininess: { type: 'float', value: shininess },
+                lightColour: { type: 'vec3', value: sunColour },
+                specularColour: { type: 'vec3', value: specularColour },
             },
             vertexShader: grassVertexSource,
             fragmentShader: grassFragmentSource,
             side: THREE.DoubleSide
         });
 
-        var grass = new THREE.Mesh(instancedGeometry, grassMaterial);
+        const grass = new THREE.Mesh(instancedGeometry, grassMaterial);
         this.app.scene.add(grass);
-        grass.scale.set(0.4,0.4,0.4)
-        grass.position.set(54, 6, -48)
+        grass.scale.set(0.4, 0.4, 0.4);
+        grass.position.set(54, 6, -48);
 
         function updateSunPosition() {
-            var sunDirection = new THREE.Vector3(Math.sin(azimuth), Math.sin(elevation), -Math.cos(azimuth));
+            const sunDirection = new THREE.Vector3(Math.sin(azimuth), Math.sin(elevation), -Math.cos(azimuth));
             grassMaterial.uniforms.sunDirection.value = sunDirection;
-            backgroundMaterial.uniforms.sunDirection.value = sunDirection;
         }
 
-//************** Draw **************
-//************** User movement **************
-        var forward = false;
-        var backward = false;
-        var left = false;
-        var right = false;
+        //************** Draw **************
+        //************** User movement **************
+        let forward = false;
+        let backward = false;
+        let left = false;
+        let right = false;
 
         function keyDown(e) {
-            if (e.keyCode == 38 || e.keyCode == 40) {
+            if (e.keyCode === 38 || e.keyCode === 40) {
                 e.preventDefault();
             }
-            if (e.keyCode == 87 || e.keyCode == 38) {
+            if (e.keyCode === 87 || e.keyCode === 38) {
                 forward = true;
             }
-            if (e.keyCode == 83 || e.keyCode == 40) {
+            if (e.keyCode === 83 || e.keyCode === 40) {
                 backward = true;
             }
-            if (e.keyCode == 65 || e.keyCode == 37) {
+            if (e.keyCode === 65 || e.keyCode === 37) {
                 left = true;
             }
-            if (e.keyCode == 68 || e.keyCode == 39) {
+            if (e.keyCode === 68 || e.keyCode === 39) {
                 right = true;
             }
-        };
+        }
 
         function keyUp(e) {
-            if (e.keyCode == 87 || e.keyCode == 38) {
+            if (e.keyCode === 87 || e.keyCode === 38) {
                 forward = false;
             }
-            if (e.keyCode == 83 || e.keyCode == 40) {
+            if (e.keyCode === 83 || e.keyCode === 40) {
                 backward = false;
             }
-            if (e.keyCode == 65 || e.keyCode == 37) {
+            if (e.keyCode === 65 || e.keyCode === 37) {
                 left = false;
             }
-            if (e.keyCode == 68 || e.keyCode == 39) {
+            if (e.keyCode === 68 || e.keyCode === 39) {
                 right = false;
             }
-        };
+        }
 
         document.addEventListener('keydown', keyDown);
         document.addEventListener('keyup', keyUp);
@@ -552,25 +549,25 @@ void main() {
             };
         }
 
-        var viewDirection = new THREE.Vector3();
-        var upVector = new THREE.Vector3(0, 1, 0);
+        const upVector = new THREE.Vector3(0, 1, 0);
 
-//Find the height of the spherical world at given x,z position
+        // Find the height of the spherical world at given x,z position
         function placeOnSphere(v) {
-            let theta = Math.acos(v.z / radius);
-            let phi = Math.acos(v.x / (radius * Math.sin(theta)));
+            const theta = Math.acos(v.z / radius);
+            const phi = Math.acos(v.x / (radius * Math.sin(theta)));
             let sV = radius * Math.sin(theta) * Math.sin(phi);
-            //If undefined, set to default value
-            if (sV != sV) {
+            // If undefined, set to default value
+            if (sV !== sV) {
                 sV = v.y;
             }
             return sV;
         }
 
-        function move(dT) {
+        const viewDirection = new THREE.Vector3();
 
+        function move(dT) {
             self.app.camera.getWorldDirection(viewDirection);
-            length = Math.sqrt(viewDirection.x * viewDirection.x + viewDirection.z * viewDirection.z);
+            const length = Math.sqrt(viewDirection.x * viewDirection.x + viewDirection.z * viewDirection.z);
             viewDirection.x /= length;
             viewDirection.z /= length;
             if (forward) {
@@ -582,12 +579,12 @@ void main() {
                 pos.y -= dT * speed * viewDirection.z;
             }
             if (left) {
-                var rightVector = cross(upVector, viewDirection);
+                const rightVector = cross(upVector, viewDirection);
                 pos.x += dT * speed * rightVector.x;
                 pos.y += dT * speed * rightVector.z;
             }
             if (right) {
-                var rightVector = cross(upVector, viewDirection);
+                const rightVector = cross(upVector, viewDirection);
                 pos.x -= dT * speed * rightVector.x;
                 pos.y -= dT * speed * rightVector.z;
             }
@@ -602,15 +599,13 @@ void main() {
             grassMaterial.uniforms.radius.value = radius;
         }
 
-
-        var time = 0;
-        var lastFrame = Date.now();
-        var thisFrame;
-        var dT = 0;
+        let time = 0;
+        let lastFrame = Date.now();
+        let thisFrame;
+        let dT = 0;
 
         function draw() {
-
-            //Update time
+            // Update time
             thisFrame = Date.now();
             dT = (thisFrame - lastFrame) / 200.0;
             time += dT;
