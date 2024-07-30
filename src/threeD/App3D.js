@@ -2,7 +2,6 @@ import * as THREE from "three";
 import {SceneInitializer} from "./SceneInitializer"; // 导入 SceneInitializer 类
 import {RaycasterHelper} from "@/threeD/interaction/RaycasterHelper";
 import {ImportObjs} from "@/threeD/loaders/ImportObjs";
-import {ImportFBX} from '@/threeD/animation/ImportFBX';
 import {JudgeFace3} from '@/threeD/basicMath/JudgeFace3';
 import {FlowPipe} from '@/threeD/animation/FlowPipe/FlowPipe';
 import {Helper} from '@/threeD/helpers/Helper';
@@ -57,7 +56,6 @@ export default class App3D {
         this.helper = new Helper(this);
         this.raycasterHelper = new RaycasterHelper(this);
         this.objLoaders = new ImportObjs(this);
-        this.FBXLoader = new ImportFBX(this);
         this.JudgeFace3 = new JudgeFace3(this);
         this.flowPipe = new FlowPipe(this);
         this.exportImport = new ExportImport(this);
