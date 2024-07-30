@@ -18,12 +18,6 @@
 
 <script>
 export default {
-    props: {
-        app3D: {
-            type: Object,
-            required: true
-        }
-    },
     data() {
         return {
             expandedKeys: [],
@@ -86,7 +80,7 @@ export default {
     width: 300px;
     height: calc(100vh - 46px);
     border: solid #99A1A9 1px;
-    background-color: #1e2a38;
+    background-color: transparent;
 
     #leftToolClassSub {
         display: inline;
@@ -102,7 +96,7 @@ export default {
         }
 
         .el-tree {
-            background-color: #1e2a38;
+            background-color: transparent;
             color: #ecf0f1;
             width: 100%;
 

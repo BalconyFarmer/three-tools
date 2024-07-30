@@ -145,8 +145,8 @@ export class Helper {
         const divisions = 10;
         this.gridHelper = new THREE.Group()
         this.gridHelper.cname = '地面网格 '
-        const geometry = new THREE.PlaneBufferGeometry(1000, 1000, 32);
-        const material = new THREE.MeshPhongMaterial({color: 0xffff00, side: THREE.DoubleSide});
+        const geometry = new THREE.PlaneGeometry(1000, 1000, 32);
+        const material = new THREE.MeshPhongMaterial({ color: 0xffff00, side: THREE.DoubleSide });
         material.transparent = true
         material.opacity = 0.05
         const plane = new THREE.Mesh(geometry, material);
@@ -156,6 +156,7 @@ export class Helper {
         this.gridHelper.add(new THREE.GridHelper(size, divisions), plane);
         this.app.scene.add(this.gridHelper);
     }
+
 
     removeGridhelper() {
         this.app.scene.remove(this.gridHelper);
