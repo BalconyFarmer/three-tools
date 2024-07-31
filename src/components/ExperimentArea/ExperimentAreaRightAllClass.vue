@@ -1,16 +1,22 @@
 <template>
     <div id="rightToolClassSub">
+        <a @click="clearAll">清空</a>
+        <el-divider></el-divider>
         <div>
-            <strong>环境相关</strong>
-            <a @click="clearAll">清空</a>
-            <a @click="bloomOnly">局部泛光</a>
+            <strong>自定义着色器</strong>
             <a @click="addCloud">云</a>
             <a @click="addGrass">草坪</a>
+            <a @click="bloomOnly">局部泛光</a>
+            <a @click="addWater">水纹效果</a>
+        </div>
+        <el-divider></el-divider>
+
+        <div>
+            <strong>环境相关</strong>
             <a @click="addBackgroundImg">背景图片</a>
             <a @click="addBackgroundBox">背景包围盒</a>
         </div>
-
-        <br><br>
+        <el-divider></el-divider>
 
         <div>
             <strong>控制相关</strong>
@@ -18,17 +24,22 @@
             <a @click="stopPersonalControl">关闭第一人称</a>
             <a @click="startAutoRunCamera">相机自动旋转</a>
         </div>
+        <el-divider></el-divider>
 
-        <br><br>
+        <div>
+            <strong>静态物质</strong>
+            <a @click="addAnimationTest">动画小车</a>
+            <a @click="addSkimmer">加载蛋分</a>
+        </div>
+        <el-divider></el-divider>
+
 
         <div>
             <strong>动态物质</strong>
-            <a @click="addAnimationTest">动画小车</a>
-            <a @click="addSkimmer">加载蛋分</a>
+
             <a @click="startAnimatioinEditor">开启动画编辑器</a>
             <a @click="stopAnimationEditor">关闭动画编辑器</a>
             <a @click="addSound">声音</a>
-            <a @click="addWater">水纹效果</a>
             <a @click="addAdvancedMaterial">心脏 AdvancedMaterial</a>
             <a @click="addGUITest">GUI</a>
             <a @click="makeMeshPoint">点集显示</a>
@@ -37,7 +48,8 @@
             <a @click="addCanvasAnimation">Canvas 动画</a>
         </div>
 
-        <br><br>
+        <el-divider></el-divider>
+
 
         <div>
             <strong>计算相关</strong>
@@ -52,7 +64,8 @@
             <a @click="addCustomCube">Box</a>
         </div>
 
-        <br><br>
+        <el-divider></el-divider>
+
 
         <div>
             <strong>辅助查看器 Helper</strong>
@@ -63,8 +76,7 @@
             <a @click="addFaceNormalsHelper">面法线助手</a>
             <a @click="addVertexNormalsHelper">顶点法线助手</a>
         </div>
-
-        <br><br>
+        <el-divider></el-divider>
 
         <div>
             <strong>其他</strong>
@@ -78,7 +90,7 @@
 
 <script>
 import * as THREE from "three";
-import { serverAdress } from "@/config";
+import {serverAdress} from "@/config";
 import Canvas from "./Canvas/Canvas";
 
 export default {
@@ -155,9 +167,6 @@ export default {
         makeOfflineRender() {
             window.app3D.offLineRender.start();
         },
-        makePhysiSimulate() {
-            window.app3D.physiSimulate.init();
-        },
         makeCar() {
             window.app3D.car.init();
         },
@@ -192,8 +201,8 @@ export default {
         },
         addCloud() {
             const clouds = [
-                { position: [10, 20, -21], size: 10 },
-                { position: [0, 37, 6], size: 15 }
+                {position: [10, 20, -21], size: 10},
+                {position: [0, 37, 6], size: 15}
             ];
             clouds.forEach(cloud => window.app3D.cloud.addCloud(cloud.position, cloud.size));
         },

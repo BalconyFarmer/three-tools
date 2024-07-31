@@ -69,9 +69,14 @@ export default {
         }
     },
     mounted() {
-        setInterval(() => {
+        this.intervalId = setInterval(() => {
             this.updateTreeData();
         }, 1000);
+    },
+    beforeDestroy() {
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
     }
 };
 </script>
