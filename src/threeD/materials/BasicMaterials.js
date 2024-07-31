@@ -86,7 +86,7 @@ export class BasicMaterials {
         initRenderer()
 
         function addMesh() {
-            const geometry = new THREE.BoxBufferGeometry(12, 12, 12);
+            const geometry = new THREE.BoxGeometry(12, 12, 12);
             const material = new THREE[materialName]({color: 0x00ff00});
             mesh = new THREE.Mesh(geometry, material);
             // mesh.rotateY(45)
@@ -106,7 +106,7 @@ export class BasicMaterials {
     }
 
     makeGeometry() {
-        this.geometry = new THREE.BoxBufferGeometry(1, 1, 1);
+        this.geometry = new THREE.BoxGeometry(1, 1, 1);
     }
 
     /**

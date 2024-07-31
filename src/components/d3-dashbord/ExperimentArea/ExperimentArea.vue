@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import App3D from "../../threeD/App3D";
+import App3D from "@/threeD/App3D";
 import axesSvg from '@/assets/axes.svg';
 import statsSvg from '@/assets/stats.svg';
 import grideLineSvg from '@/assets/网格.svg';

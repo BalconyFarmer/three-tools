@@ -18,7 +18,7 @@ export class Matrix4Practice {
     }
 
     makeMesh() {
-        const geometry = new THREE.BoxBufferGeometry(10, 10, 10);
+        const geometry = new THREE.BoxGeometry(10, 10, 10);
         const material = new THREE.MeshLambertMaterial({color: 0x00ff00});
         this.mesh = new THREE.Mesh(geometry, material);
         this.app.scene.add(this.mesh);

@@ -1,4 +1,4 @@
-import App3D from "../../threeD/App3D";
+import App3D from "@/threeD/App3D";
 import * as THREE from 'three';
 import {serverAdress} from '@/config';
 import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader";

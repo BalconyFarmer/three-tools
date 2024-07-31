@@ -9,36 +9,11 @@
             </div>
         </div>
 
-        <div id="videoUploadContainer">
-            <div class="clearfix">
-                <a-input placeholder="OBJ Name" v-model="videoIntroduce" size="small"/>
-
-                <a-upload :file-list="fileList" :remove="handleRemove" :before-upload="beforeUpload">
-                    <a-button size="small" type="primary">
-                        <a-icon type="upload"/>
-                        Select File
-                    </a-button>
-                </a-upload>
-
-                <a-button
-                    type="primary"
-                    :disabled="fileList.length === 0"
-                    :loading="uploading"
-                    style="margin-top: 16px"
-                    size="small"
-                    @click="handleUpload"
-                >
-                    {{ uploading ? 'Uploading' : 'Start Upload' }}
-                </a-button>
-            </div>
-        </div>
     </div>
 </template>
 
 <script>
 import * as THREE from "three";
-import {save3DModelApi} from '@/api/api'
-import {getOBJList} from '@/api/api'
 import {serverAdress} from '@/config';
 
 export default {
@@ -122,58 +97,8 @@ export default {
             }
 
         },
-        getMyOBJResource() {
-            getOBJList().then(response => {
-                this.objResource = response.data
-                this.objResource.forEach(item => {
-                    this.listData.push({
-                        name: item.objname,
-                        index: item.objpath.replace('./static', serverAdress + ''),
-                        imgSrc: ''
-                    })
-                })
-            })
-        },
-        // 上传至页面
-        beforeUpload(file) {
-            this.fileList = [...this.fileList, file];
-            return false;
-        },
-
-        // 页面删除
-        handleRemove(file) {
-            const index = this.fileList.indexOf(file);
-            const newFileList = this.fileList.slice();
-            newFileList.splice(index, 1);
-            this.fileList = newFileList;
-        },
-
-        // 上传服务器
-        handleUpload() {
-            const {fileList} = this;
-            const formData = new FormData();
-            fileList.forEach(file => {
-                formData.append('files[]', file);
-            });
-            formData.append('videoIntroduce', this.videoIntroduce);
-            this.uploading = true;
-
-            const self = this
-            save3DModelApi(formData).then(response => {
-                if (response.status === 200) {
-                    this.$message.success(response.data);
-                    self.getMyOBJResource()
-                } else {
-                    this.$message.success('status', response.status);
-                }
-                this.uploading = false;
-                this.fileList = []
-            })
-        }
     },
     mounted() {
-        this.getMyOBJResource()
-        console.log('清除3D内存!')
     }
 }
 </script>

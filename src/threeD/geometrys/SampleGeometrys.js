@@ -6,8 +6,8 @@ export class SampleGeometrys {
 
     }
 
-    BoxBufferGeometry() {
-        var geometry = new THREE.BoxBufferGeometry(1, 1, 1);
+    BoxGeometry() {
+        var geometry = new THREE.BoxGeometry(1, 1, 1);
         var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
         var cube = new THREE.Mesh(geometry, material);
         scene.add(cube);
@@ -71,7 +71,7 @@ export class SampleGeometrys {
     }
 
     EdgesGeometry() {
-        var geometry = new THREE.BoxBufferGeometry(100, 100, 100);
+        var geometry = new THREE.BoxGeometry(100, 100, 100);
         var edges = new THREE.EdgesGeometry(geometry);
         var line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({color: 0xffffff}));
         scene.add(line);
@@ -472,7 +472,7 @@ export class SampleGeometrys {
 
     initName() {
         this.nameList = [
-            'BoxBufferGeometry',
+            'BoxGeometry',
             'BoxGeometry',
             'CircleBufferGeometry',
             'CircleGeometry',

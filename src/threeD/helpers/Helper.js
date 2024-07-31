@@ -212,7 +212,7 @@ export class Helper {
      * 顶点法线辅助器
      */
     addVertexNormalsHelper() {
-        const geometry = new THREE.BoxBufferGeometry(10, 10, 10, 2, 2, 2);
+        const geometry = new THREE.BoxGeometry(10, 10, 10, 2, 2, 2);
         const material = new THREE.MeshLambertMaterial({ color: 0xff0000 });
         const box = new THREE.Mesh(geometry, material);
         const helper = new VertexNormalsHelper(box, 2, 0x00ff00, 1);
