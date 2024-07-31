@@ -6,7 +6,6 @@ import {JudgeFace3} from '@/threeD/basicMath/JudgeFace3';
 import {FlowPipe} from '@/threeD/animation/FlowPipe/FlowPipe';
 import {Helper} from '@/threeD/helpers/Helper';
 import {Controls} from '@/threeD/sceneBasic/Controls';
-import {Car} from '@/threeD/PROJECTS/game/Car';
 import {MakeBufferGeometryMesh} from './basicMesh/MakeBufferGeometryMesh';
 import {MakeMeshPoint} from './basicMesh/MakeMeshPoint';
 import {MakeMeshLine} from './basicMesh/MakeMeshLine';
@@ -52,7 +51,6 @@ export default class App3D {
         this.objLoaders = new ImportObjs(this);
         this.JudgeFace3 = new JudgeFace3(this);
         this.flowPipe = new FlowPipe(this);
-        this.car = new Car(this);
         this.makeBufferGeometryMesh = new MakeBufferGeometryMesh(this);
         this.makeMeshPoint = new MakeMeshPoint(this);
         this.makeMeshLine = new MakeMeshLine(this);
