@@ -8,7 +8,6 @@
             <a @click="addGrass">草坪</a>
             <a @click="addBackgroundImg">背景图片</a>
             <a @click="addBackgroundBox">背景包围盒</a>
-            <a @click="addShadows">开启阴影</a>
         </div>
 
         <br><br>
@@ -134,9 +133,6 @@ export default {
         },
         makePlayVideo() {
             window.app3D.playVideo.mamkeMesh();
-        },
-        addShadows() {
-            window.app3D.shadowLight.init();
         },
         addCanvasAnimation() {
             window.app3D.canvasTexture.addMesh();

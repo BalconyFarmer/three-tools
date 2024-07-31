@@ -1,5 +1,7 @@
 <template>
     <div id="leftContainer" @click="clearMeshSelection">
+        <el-button size="mini" @click="toggleShadow">阴影</el-button>
+
         <div id="leftToolClassSub">
             <el-tree
                 ref="tree"
@@ -13,6 +15,7 @@
                 @node-expand="handleNodeExpand"
             />
         </div>
+
     </div>
 </template>
 
@@ -29,7 +32,8 @@ export default {
             defaultProps: {
                 children: 'children',
                 label: 'title'
-            }
+            },
+            shadowFlag: false
         }
     },
     watch: {
@@ -38,6 +42,10 @@ export default {
         },
     },
     methods: {
+        toggleShadow() {
+            window.app3D.sceneManager.enableShadows(this.shadowFlag)
+            this.shadowFlag = !this.shadowFlag
+        },
         handleNodeExpand(expandedKeys) {
             this.expandedKeys = expandedKeys;
             this.autoExpandParent = false;
@@ -50,9 +58,10 @@ export default {
             this.selectedKeys = [node.key];
         },
         updateTreeData() {
-            setTimeout(() => {
-                this.treeData = window.app3D.getSceneChildren();
-            }, 500);
+            const newTreeData = window.app3D.getSceneChildren();
+            if (JSON.stringify(this.treeData) !== JSON.stringify(newTreeData)) {
+                this.treeData = newTreeData;
+            }
         },
         clearMeshSelection() {
             window.app3D.clearSelectedMesh();
@@ -60,13 +69,9 @@ export default {
         }
     },
     mounted() {
-        setTimeout(() => {
-            this.treeData = window.app3D.getSceneChildren();
-            window.app3D.eventBus.addEventListener('updateTreeData', this.updateTreeData);
-        }, 500);
-    },
-    beforeDestroy() {
-        window.app3D.eventBus.removeEventListener('updateTreeData', this.updateTreeData);
+        setInterval(() => {
+            this.updateTreeData();
+        }, 1000);
     }
 };
 </script>

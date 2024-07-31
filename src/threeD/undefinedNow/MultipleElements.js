@@ -33,20 +33,20 @@ export class MultipleElements {
     makeGeometries() {
         this.meshs = []
         let geometries = [
-            new THREE.BoxBufferGeometry(),
-            new THREE.CircleBufferGeometry(),
-            new THREE.CylinderBufferGeometry(),
-            new THREE.ConeBufferGeometry(),
-            new THREE.DodecahedronBufferGeometry(),
-            new THREE.DodecahedronBufferGeometry(),
-            new THREE.OctahedronBufferGeometry(),
-            new THREE.RingBufferGeometry(),
-            new THREE.SphereBufferGeometry(),
-            new THREE.TorusBufferGeometry(),
-            new THREE.TorusKnotBufferGeometry(),
-            new THREE.PlaneBufferGeometry(),
-            new THREE.TetrahedronBufferGeometry(),
-            new THREE.IcosahedronBufferGeometry()
+            new THREE.BoxGeometry(),
+            new THREE.CircleGeometry(),
+            new THREE.CylinderGeometry(),
+            new THREE.ConeGeometry(),
+            new THREE.DodecahedronGeometry(),
+            new THREE.DodecahedronGeometry(),
+            new THREE.OctahedronGeometry(),
+            new THREE.RingGeometry(),
+            new THREE.SphereGeometry(),
+            new THREE.TorusGeometry(),
+            new THREE.TorusKnotGeometry(),
+            new THREE.PlaneGeometry(),
+            new THREE.TetrahedronGeometry(),
+            new THREE.IcosahedronGeometry()
         ];
 
         geometries.forEach(item => {
@@ -141,7 +141,7 @@ export class MultipleElements {
                             const vec3 = intersects[0].point
                             const meshClone = self.selectedObject.clone()
                             self.app.scene.add(meshClone)
-                            meshClone.position = vec3
+                            meshClone.position.copy(vec3); // 使用 copy 方法设置位置
                         }
                     }
                 }

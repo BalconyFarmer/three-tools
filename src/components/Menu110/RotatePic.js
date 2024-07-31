@@ -66,25 +66,10 @@ export class RotatePic {
         this.renderer.shadowMap.enabled = false; // 启用阴影
 
         // 环境光
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 2);
         this.scene.add(ambientLight);
 
-        // 方向光
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(300, 400, 200);
-        directionalLight.castShadow = true;
-        this.scene.add(directionalLight);
 
-        // 点光源
-        const pointLight = new THREE.PointLight(0xff0000, 1, 1000);
-        pointLight.position.set(50, 50, 50);
-        this.scene.add(pointLight);
-
-        // 聚光灯
-        const spotLight = new THREE.SpotLight(0x00ff00, 1);
-        spotLight.position.set(100, 1000, 100);
-        spotLight.castShadow = true;
-        this.scene.add(spotLight);
     }
 
     startAnimation() {

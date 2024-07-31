@@ -25,36 +25,62 @@ export class SceneInitializer {
         this.app.camera = this.camera;
     }
 
-    initLight(intensity = 1) {
-        const distance = 500;
+    initLight(intensity = 0.5) {
+        const distance = 100;
 
-        const ambient = new THREE.AmbientLight(0x444444, intensity);
+        const ambient = new THREE.AmbientLight(0xFFFFFF, intensity);
         this.scene.add(ambient);
 
-        const pointLightPositions = [{x: distance, y: 0, z: 0}, {x: -distance, y: 0, z: 0}, {
-            x: 0, y: distance, z: 0
-        }, {x: 0, y: -distance, z: 0}, {x: 0, y: 0, z: distance}, {x: 0, y: 0, z: -distance}];
-
-        pointLightPositions.forEach((pos, index) => {
-            const pointLight = new THREE.PointLight(0xffffff, intensity);
-            pointLight.position.set(pos.x, pos.y, pos.z);
-            pointLight.cname = `点光源${index}`;
-            this.scene.add(pointLight);
-        });
-
-        const directionalLight = new THREE.DirectionalLight(0xFFFFFF, intensity);
+        const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1);
         directionalLight.position.set(distance, distance, distance);
         directionalLight.cname = '方向光源';
         this.scene.add(directionalLight);
+
+        directionalLight.castShadow = true;
+
+        // 设置方向光的阴影属性
+        directionalLight.shadow.mapSize.width = 2048;  // 阴影分辨率
+        directionalLight.shadow.mapSize.height = 2048;
+        directionalLight.shadow.camera.near = 0.5;  // 阴影相机的近截面
+        directionalLight.shadow.camera.far = 500;  // 阴影相机的远截面
+        directionalLight.shadow.camera.left = -100;
+        directionalLight.shadow.camera.right = 100;
+        directionalLight.shadow.camera.top = 100;
+        directionalLight.shadow.camera.bottom = -100;
+
+        // 创建灰色地面
+        const planeGeometry = new THREE.PlaneGeometry(200, 200);
+        const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 });
+        const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        plane.rotation.x = -Math.PI / 2;  // 使平面水平放置
+        plane.position.y = -1;  // 调整地面位置
+        // plane.receiveShadow = true;  // 启用地面的阴影接收
+        this.scene.add(plane);
+
+        // 添加示例对象到场景中
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
+        const cube = new THREE.Mesh(geometry, material);
+        // cube.castShadow = true;  // 启用物体的阴影投射
+        // cube.receiveShadow = true;  // 启用物体的阴影接收
+        cube.position.y = 1;  // 提升立方体，以便它能够投射阴影到地面上
+        this.scene.add(cube);
+
     }
+
+
 
     initRenderer() {
         const {width, height} = this.dom;
         this.renderer = new THREE.WebGLRenderer({canvas: this.dom, antialias: true});
         this.renderer.setSize(width, height);
         this.renderer.setClearColor(0x000000, 0.1);
+
         this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
         this.app.renderer = this.renderer;
+
     }
 
     startLoop() {

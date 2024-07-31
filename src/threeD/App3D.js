@@ -26,7 +26,6 @@ import {PlayVideo} from './materials/PlayVideo';
 import {TextureCanvasAnimation} from './materials/TextureCanvasAnimation';
 import {BasicMaterials} from '@/threeD/materials/BasicMaterials';
 import {GUIApp} from './GUI/GUIApp';
-import {ShadowLight} from './undefinedNow/ShadowLight';
 import {LittleWindow} from './helpers/representationalviewer/LittleWindow';
 import {MultipleElements} from './undefinedNow/MultipleElements';
 import {AdvancedMaterial} from './materials/AdvancedMaterial';
@@ -78,7 +77,6 @@ export default class App3D {
         this.canvasTexture = new TextureCanvasAnimation(this);
         this.basicMaterials = new BasicMaterials(this);
         this.GUI3D = new GUIApp(this);
-        this.shadowLight = new ShadowLight(this);
         this.littleWindow = new LittleWindow(this);
         this.multipleElements = new MultipleElements(this);
         this.advancedMaterial = new AdvancedMaterial(this);
