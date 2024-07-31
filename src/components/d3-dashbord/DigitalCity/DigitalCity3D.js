@@ -32,7 +32,6 @@ export class DigitalCity3D {
         this.app3D.controls.setLimit(-Math.PI / 2, Math.PI / 2, 0, Math.PI / 2, 10, 800);
         this.app3D.controls.startAutoRun(0.2);
 
-        this.app3D.outlineShineEffect.run() // 外轮廓高亮效果
     }
 
     loadOBJ() {

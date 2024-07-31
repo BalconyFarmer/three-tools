@@ -1,7 +1,6 @@
 <template>
     <div class="all_3DMenu">
-        <canvas width="2000px" height="1000px" style="z-index: 99999;"
-                id="D3Container"></canvas>
+        <canvas id="D3Container" height="900px" style="z-index: 99999;" width="2000px"></canvas>
     </div>
 </template>
 
@@ -41,7 +40,7 @@ export default {
 .all_3DMenu {
     margin-top: 1%;
     width: 100%;
-    height: 100%;
+    height: 90%;
     display: flex;
     flex-direction: row;
     justify-content: center;
