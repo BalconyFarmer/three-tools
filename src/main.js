@@ -15,6 +15,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import "@/style/reset.scss"
 import '@/style/elementPlusCustom.scss';
 import 'element-ui/lib/theme-chalk/index.css';
+import 'animate.css';
 
 Vue.config.productionTip = false
 Vue.use(Antd)

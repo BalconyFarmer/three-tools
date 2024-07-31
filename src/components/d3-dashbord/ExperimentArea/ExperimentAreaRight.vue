@@ -1,11 +1,11 @@
 <template>
     <div id="rightContainer">
 
-        <ExperimentAreaRightAllClass :app3D='app3D' v-if="allClassShow"></ExperimentAreaRightAllClass>
-        <ExperimentAreaRightMaterial :app3D='app3D' v-if="allMaterial"></ExperimentAreaRightMaterial>
-        <ExperimentAreaRightGeometries :app3D='app3D' v-if="allGeometries"></ExperimentAreaRightGeometries>
-        <ExperimentAreaRightStaticsModels :app3D='app3D' v-if="StaticsModels"></ExperimentAreaRightStaticsModels>
-        <ExperimentAreaRightTransform :app3D='app3D' v-if="transformShow "></ExperimentAreaRightTransform>
+        <ExperimentAreaRightAllClass v-if="allClassShow" :app3D='app3D'></ExperimentAreaRightAllClass>
+        <ExperimentAreaRightMaterial v-if="allMaterial" :app3D='app3D'></ExperimentAreaRightMaterial>
+        <ExperimentAreaRightGeometries v-if="allGeometries" :app3D='app3D'></ExperimentAreaRightGeometries>
+        <ExperimentAreaRightStaticsModels v-if="StaticsModels" :app3D='app3D'></ExperimentAreaRightStaticsModels>
+        <ExperimentAreaRightTransform v-if="transformShow " :app3D='app3D'></ExperimentAreaRightTransform>
 
         <div id='rightToolClass'>
             <a-tooltip placement="left">
@@ -13,7 +13,8 @@
                     prompt text
                 </template>
                 <div :class="allClassShow?'rightToolClassSubSelect': 'rightToolClassSub'">
-                    <a-icon type="branches" @click="turnOnAllClass" style="color: #ffffff"/>
+                    <a-icon class="animate__animated animate__flash" style="color: #ffffff" type="branches"
+                            @click="turnOnAllClass"/>
                 </div>
             </a-tooltip>
 
@@ -22,7 +23,8 @@
                     材质
                 </template>
                 <div :class="allMaterial?'rightToolClassSubSelect': 'rightToolClassSub'">
-                    <a-icon type="environment" @click="turnMaterial" style="color: #ffffff"/>
+                    <a-icon class="animate__animated animate__flash" style="color: #ffffff" type="environment"
+                            @click="turnMaterial"/>
                 </div>
             </a-tooltip>
 
@@ -31,7 +33,8 @@
                     几何体
                 </template>
                 <div :class="allGeometries?'rightToolClassSubSelect': 'rightToolClassSub'">
-                    <a-icon type="environment" @click="turnGeometries" style="color: #ffffff"/>
+                    <a-icon class="animate__animated animate__flash" style="color: #ffffff" type="environment"
+                            @click="turnGeometries"/>
                 </div>
             </a-tooltip>
 
@@ -40,7 +43,8 @@
                     OBJ
                 </template>
                 <div :class="StaticsModels?'rightToolClassSubSelect': 'rightToolClassSub'">
-                    <a-icon type="environment" @click="turnStaticsModels" style="color: #ffffff"/>
+                    <a-icon class="animate__animated animate__flash" style="color: #ffffff" type="environment"
+                            @click="turnStaticsModels"/>
                 </div>
             </a-tooltip>
 
@@ -49,7 +53,7 @@
                     TRANSFORM
                 </template>
                 <div :class="transformShow?'rightToolClassSubSelect': 'rightToolClassSub'">
-                    <a-icon type="api" @click="turnOnTransformShow" style="color: #ffffff"/>
+                    <a-icon class="animate__animated animate__flash" style="color: #ffffff" type="api" @click="turnOnTransformShow"/>
                 </div>
             </a-tooltip>
 

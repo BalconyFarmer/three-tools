@@ -3,7 +3,7 @@
         <a @click="clearAll">清空</a>
         <el-divider></el-divider>
         <div>
-            <strong>自定义着色器</strong>
+            <strong class="animation-section animate__flash">自定义着色器</strong>
             <a @click="addCloud">云</a>
             <a @click="addGrass">草坪</a>
             <a @click="bloomOnly">局部泛光</a>
