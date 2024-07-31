@@ -6,11 +6,8 @@ import {JudgeFace3} from '@/threeD/basicMath/JudgeFace3';
 import {FlowPipe} from '@/threeD/animation/FlowPipe/FlowPipe';
 import {Helper} from '@/threeD/helpers/Helper';
 import {Controls} from '@/threeD/sceneBasic/Controls';
-import {ExportImport} from '@/threeD/loaders/ExportImport';
 import {Car} from '@/threeD/PROJECTS/game/Car';
-import {PhysiSimulate} from '@/threeD/PROJECTS/game/PhysiSimulate';
 import {MakeBufferGeometryMesh} from './basicMesh/MakeBufferGeometryMesh';
-import {MakeBufferGeometryCube} from './basicMesh/MakeBufferGeometryCube';
 import {MakeGeometryMesh} from './basicMesh/MakeGeometryMesh';
 import {MakeMeshPoint} from './basicMesh/MakeMeshPoint';
 import {MakeMeshLine} from './basicMesh/MakeMeshLine';
@@ -47,7 +44,6 @@ export default class App3D {
         this.renderQueue = [];  // 动画队列
         this.eventBus = new THREE.EventDispatcher(); // 3D事件中心
         this.clock = new THREE.Clock();
-        this.loopFlag = true;
     }
 
     initializeComponents() {
@@ -57,11 +53,8 @@ export default class App3D {
         this.objLoaders = new ImportObjs(this);
         this.JudgeFace3 = new JudgeFace3(this);
         this.flowPipe = new FlowPipe(this);
-        this.exportImport = new ExportImport(this);
         this.car = new Car(this);
-        this.physiSimulate = new PhysiSimulate(this);
         this.makeBufferGeometryMesh = new MakeBufferGeometryMesh(this);
-        this.makeBufferGeometryCube = new MakeBufferGeometryCube(this);
         this.makeGeometryMesh = new MakeGeometryMesh(this);
         this.makeMeshPoint = new MakeMeshPoint(this);
         this.makeMeshLine = new MakeMeshLine(this);

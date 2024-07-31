@@ -101,7 +101,6 @@ export class SceneManager {
     enableShadows(enable) {
         this.scene.traverse((object) => {
             if (object.isMesh) {
-                console.log(object,"+++++++++++++++++++")
                 object.castShadow = enable;
                 object.receiveShadow = enable;
             }

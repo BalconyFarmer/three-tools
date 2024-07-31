@@ -53,7 +53,6 @@
 
         <div>
             <strong>计算相关</strong>
-            <a @click="makeCar">碰撞检测</a>
             <a @click="startTestBSP">BSP计算</a>
             <a @click="JudgeFace3">JudgeFace3</a>
             <a @click="addMatrix4Practice">Matrix4 练习</a>
@@ -166,9 +165,6 @@ export default {
         },
         makeOfflineRender() {
             window.app3D.offLineRender.start();
-        },
-        makeCar() {
-            window.app3D.car.init();
         },
         JudgeFace3() {
             window.app3D.JudgeFace3.init();

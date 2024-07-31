@@ -53,19 +53,8 @@ export class SceneInitializer {
         const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 });
         const plane = new THREE.Mesh(planeGeometry, planeMaterial);
         plane.rotation.x = -Math.PI / 2;  // 使平面水平放置
-        plane.position.y = -1;  // 调整地面位置
-        // plane.receiveShadow = true;  // 启用地面的阴影接收
+        plane.position.y = 1;  // 调整地面位置
         this.scene.add(plane);
-
-        // 添加示例对象到场景中
-        const geometry = new THREE.BoxGeometry();
-        const material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
-        const cube = new THREE.Mesh(geometry, material);
-        // cube.castShadow = true;  // 启用物体的阴影投射
-        // cube.receiveShadow = true;  // 启用物体的阴影接收
-        cube.position.y = 1;  // 提升立方体，以便它能够投射阴影到地面上
-        this.scene.add(cube);
-
     }
 
 
