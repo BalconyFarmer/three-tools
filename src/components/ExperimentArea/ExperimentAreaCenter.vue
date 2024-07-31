@@ -22,6 +22,8 @@
                 </span>
 
                 <a-switch default-checked:false size="small" @change="casterMeshChange" />
+                <el-button size="mini" @click="toggleShadow">阴影</el-button>
+
             </div>
         </div>
 
@@ -36,21 +38,6 @@
                     <a-menu-item @click="importMesh">导入Mesh</a-menu-item>
                 </a-menu>
             </a-dropdown>
-        </div>
-
-        <div id="drawTools">
-            <img :src="icon5" class="icon5" style="width: 20px" @click="" />
-            <img :src="icon0" class="icon5" style="width: 20px" @click="" />
-            <img :src="icon1" class="icon5" style="width: 20px" @click="" />
-            <img :src="icon2" class="icon5" style="width: 20px" @click="" />
-            <img :src="icon3" class="icon5" style="width: 20px" @click="" />
-            <img :src="icon4" class="icon5" style="width: 20px" @click="" />
-            <img :src="icon6" class="icon5" style="width: 20px" @click="" />
-            <img :src="icon7" class="icon5" style="width: 20px" @click="" />
-            <img :src="icon8" class="icon5" style="width: 20px" @click="" />
-            <img :src="icon9" class="icon5" style="width: 20px" @click="" />
-            <img :src="icon10" class="icon5" style="width: 20px" @click="" />
-            <img :src="icon11" class="icon5" style="width: 20px" @click="" />
         </div>
     </div>
 </template>
@@ -123,6 +110,10 @@ export default {
         };
     },
     methods: {
+        toggleShadow() {
+            window.app3D.sceneManager.enableShadows(this.shadowFlag)
+            this.shadowFlag = !this.shadowFlag
+        },
         axesToggle() {
             if (this.axesFlag) {
                 if (window.app3D.helper) {

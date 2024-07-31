@@ -1,6 +1,5 @@
 <template>
     <div id="leftContainer" @click="clearMeshSelection">
-        <el-button size="mini" @click="toggleShadow">阴影</el-button>
 
         <div id="leftToolClassSub">
             <el-tree
@@ -42,10 +41,7 @@ export default {
         },
     },
     methods: {
-        toggleShadow() {
-            window.app3D.sceneManager.enableShadows(this.shadowFlag)
-            this.shadowFlag = !this.shadowFlag
-        },
+
         handleNodeExpand(expandedKeys) {
             this.expandedKeys = expandedKeys;
             this.autoExpandParent = false;
