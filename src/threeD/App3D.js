@@ -8,7 +8,6 @@ import {Helper} from '@/threeD/helpers/Helper';
 import {Controls} from '@/threeD/sceneBasic/Controls';
 import {Car} from '@/threeD/PROJECTS/game/Car';
 import {MakeBufferGeometryMesh} from './basicMesh/MakeBufferGeometryMesh';
-import {MakeGeometryMesh} from './basicMesh/MakeGeometryMesh';
 import {MakeMeshPoint} from './basicMesh/MakeMeshPoint';
 import {MakeMeshLine} from './basicMesh/MakeMeshLine';
 import {TransformMesh} from './interaction/TransformMesh';
@@ -55,7 +54,6 @@ export default class App3D {
         this.flowPipe = new FlowPipe(this);
         this.car = new Car(this);
         this.makeBufferGeometryMesh = new MakeBufferGeometryMesh(this);
-        this.makeGeometryMesh = new MakeGeometryMesh(this);
         this.makeMeshPoint = new MakeMeshPoint(this);
         this.makeMeshLine = new MakeMeshLine(this);
         this.transformMesh = new TransformMesh(this);

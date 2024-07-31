@@ -44,26 +44,20 @@
 
         <div>
             <strong>计算相关</strong>
-            <a @click="startTestBSP">BSP计算</a>
             <a @click="JudgeFace3">JudgeFace3</a>
             <a @click="addMatrix4Practice">Matrix4 练习</a>
             <a @click="addEulerPractice">Euler 练习</a>
             <a @click="addQuaternionPractice">Quaternion 练习</a>
-            <a @click="makeGeometryMesh">Geometry Mesh</a>
             <a @click="makeBufferGeometryMesh">Buffer Geometry Mesh</a>
-            <a @click="addCustomCube">Box</a>
         </div>
 
         <el-divider></el-divider>
 
-
         <div>
             <strong>辅助查看器 Helper</strong>
-            <a @click="makeOfflineRender">离线渲染</a>
             <a @click="addCameraHelper">相机助手</a>
             <a @click="addPolarGridHelper">极坐标网格助手</a>
             <a @click="addHemisphereLightHelper">半球光助手</a>
-            <a @click="addFaceNormalsHelper">面法线助手</a>
             <a @click="addVertexNormalsHelper">顶点法线助手</a>
         </div>
         <el-divider></el-divider>
@@ -100,17 +94,11 @@ export default {
         addCameraHelper() {
             window.app3D.helper.addCameraHelper();
         },
-        startTestBSP() {
-            // window.app3D.bSPCalculate.startTestBSP();
-        },
         addPolarGridHelper() {
             window.app3D.helper.addPolarGridHelper();
         },
         addHemisphereLightHelper() {
             window.app3D.helper.addHemisphereLightHelper();
-        },
-        addFaceNormalsHelper() {
-            window.app3D.helper.addFaceNormalsHelper();
         },
         addVertexNormalsHelper() {
             window.app3D.helper.addVertexNormalsHelper();
@@ -134,20 +122,11 @@ export default {
         makeBufferGeometryMesh() {
             window.app3D.makeBufferGeometryMesh.start();
         },
-        makeGeometryMesh() {
-            window.app3D.makeGeometryMesh.start();
-        },
-        makeOfflineRender() {
-            window.app3D.offLineRender.start();
-        },
         JudgeFace3() {
             window.app3D.JudgeFace3.init();
         },
         addSound() {
             window.app3D.sound.start();
-        },
-        addCustomCube() {
-            window.app3D.addCustomCube();
         },
         startAutoRunCamera() {
             window.app3D.controls.startAutoRun();
