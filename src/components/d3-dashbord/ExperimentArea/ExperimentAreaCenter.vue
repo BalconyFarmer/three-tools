@@ -3,30 +3,30 @@
         <div id="centerTool">
             <div id="toolList">
                 <span :class="axesFlag ? 'backDiv' : ''">
-                    <img :src="axesSvg" class="icon0" @click="axesToggle" />
+                    <img :src="axesSvg" class="icon0" @click="axesToggle"/>
                 </span>
                 <span :class="statsFlag ? 'backDiv' : ''">
-                    <img :src="statsSvg" class="icon1" style="width: 20px" @click="statsToggle" />
+                    <img :src="statsSvg" class="icon1" style="width: 20px" @click="statsToggle"/>
                 </span>
                 <span :class="grideLineFlag ? 'backDiv' : ''">
-                    <img :src="grideLineSvg" class="icon1" @click="startGrideLine" />
+                    <img :src="grideLineSvg" class="icon1" @click="startGrideLine"/>
                 </span>
                 <span :class="transformFlag ? 'backDiv' : ''">
-                    <img :src="transformMesh" class="icon1" style="width: 15px" @click="startTransform" />
+                    <img :src="transformMesh" class="icon1" style="width: 15px" @click="startTransform"/>
                 </span>
                 <span :class="startLightHelperFlag ? 'backDiv' : ''">
-                    <img :src="lightIcon" class="icon1" style="width: 15px" @click="startLightHelper" />
+                    <img :src="lightIcon" class="icon1" style="width: 15px" @click="startLightHelper"/>
                 </span>
                 <span :class="startTakePointFlag ? 'backDiv' : ''">
-                    <img :src="takePointIcon" class="icon1" style="width: 15px" @click="startTakePoint" />
+                    <img :src="takePointIcon" class="icon1" style="width: 15px" @click="startTakePoint"/>
                 </span>
 
-                <a-switch default-checked:false size="small" @change="casterMeshChange" />
-                <el-button size="mini" @click="toggleShadow">阴影</el-button>
+                <a-switch default-checked:false size="small" @change="casterMeshChange"/>
+                <el-button size="mini" type="text" @click="toggleShadow">阴影</el-button>
                 <a-dropdown>
                     <a class="ant-dropdown-link" @click="e => e.preventDefault()">
                         文件管理
-                        <a-icon type="down" />
+                        <a-icon type="down"/>
                     </a>
                     <a-menu slot="overlay">
                         <a-menu-item @click="exportMesh">导出Mesh</a-menu-item>
@@ -62,7 +62,7 @@ import icon10 from '@/assets/leftTools/圆形.svg';
 import icon11 from '@/assets/leftTools/正方形.svg';
 
 import * as THREE from 'three';
-import { serverAdress } from '@/config';
+import {serverAdress} from '@/config';
 
 const FileSaver = require('file-saver');
 
@@ -170,14 +170,14 @@ export default {
         },
         exportMesh() {
             const geometry = new THREE.BoxGeometry(1, 1, 1);
-            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            const material = new THREE.MeshBasicMaterial({color: 0x00ff00});
             const cube = new THREE.Mesh(geometry, material);
             // window.app3D.scene.add(cube);
 
             const data = cube.toJSON();
             const content = JSON.stringify(data);
 
-            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
             FileSaver.saveAs(blob, 'Mesh.json');
         },
         importMesh() {
