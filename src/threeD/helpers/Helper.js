@@ -35,21 +35,19 @@ export class Helper {
         this.stats.domElement.style.left = '0px';
         this.stats.domElement.style.top = document.body.clientHeight - 50 + 'px';
 
-        const self = this;
-        this.app.renderQueue.push(function updateStats() {
-            if (self.stats) {
-                self.stats.update();
-            }
-        });
+        this.animationLoop = () => {
+            this.stats.update();
+        };
+
+        this.app.renderer.setAnimationLoop(this.animationLoop);
     }
 
     removeStats() {
         document.body.removeChild(this.stats.domElement);
-
-        const indexDelete = this.app.renderQueue.findIndex(item => item.name === 'updateStats');
-        if (indexDelete !== -1) {
-            this.app.renderQueue.splice(indexDelete, 1);
-        }
+        // 停止动画循环
+        this.app.renderer.setAnimationLoop(null);
+        // 清除对 this.animationLoop 的引用
+        this.app.animationLoop = null;
     }
 
     /**
