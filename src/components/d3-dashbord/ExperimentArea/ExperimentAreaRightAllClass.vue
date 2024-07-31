@@ -26,24 +26,15 @@
         </div>
         <el-divider></el-divider>
 
-        <div>
-            <strong>静态物质</strong>
-            <a @click="addAnimationTest">动画小车</a>
-            <a @click="addSkimmer">加载蛋分</a>
-        </div>
         <el-divider></el-divider>
 
 
         <div>
             <strong>动态物质</strong>
-
             <a @click="startAnimatioinEditor">开启动画编辑器</a>
             <a @click="stopAnimationEditor">关闭动画编辑器</a>
             <a @click="addSound">声音</a>
-            <a @click="addAdvancedMaterial">心脏 AdvancedMaterial</a>
             <a @click="addGUITest">GUI</a>
-            <a @click="makeMeshPoint">点集显示</a>
-            <a @click="makeMeshLine">线集显示</a>
             <a @click="makePlayVideo">播放视频</a>
             <a @click="addCanvasAnimation">Canvas 动画</a>
         </div>
@@ -102,19 +93,7 @@ export default {
         };
     },
     methods: {
-        addAdvancedMaterial() {
-            window.app3D.advancedMaterial.add();
-        },
-        addAnimationTest() {
-            const mesh = serverAdress + "/3Dstatic/model3D/警车/警车/obj/policeCar.obj";
-            const times = [0, 5, 10];
-            const positions = [-164, 87, -0.9, -71, 87, 6.9, -71, 87, 109];
-            window.app3D.animation.start(mesh, times, positions);
-        },
-        addSkimmer() {
-            const mesh = serverAdress + "/3Dstatic/model3D/蛋分/SimLab_2022-10-20-15-40-52.obj";
-            window.app3D.objLoaders.loadOBJ(mesh, "蛋分");
-        },
+
         addGUITest() {
             window.app3D.GUI3D.start();
         },
@@ -136,12 +115,7 @@ export default {
         addVertexNormalsHelper() {
             window.app3D.helper.addVertexNormalsHelper();
         },
-        makeMeshPoint() {
-            window.app3D.makeMeshPoint.start();
-        },
-        makeMeshLine() {
-            window.app3D.makeMeshLine.start();
-        },
+
         makePlayVideo() {
             window.app3D.playVideo.mamkeMesh();
         },

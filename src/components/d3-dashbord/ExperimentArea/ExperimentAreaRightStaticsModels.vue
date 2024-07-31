@@ -1,14 +1,18 @@
 <template>
     <div id='rightToolClassSub'>
         <div id='models'>
-            <div draggable="true" v-for="item in listData" v-on:dragstart="dragstart(item,$event)"
-                 v-on:dragend="dragend(item,$event)">
+            <div v-for="item in listData" draggable="true" v-on:dragend="dragend(item,$event)"
+                 v-on:dragstart="dragstart(item,$event)">
                 <img :src=item.imgSrc>
                 <div class="titleContainer">{{ item.name }}</div>
-                <a-divider type="horizontal" dashed/>
+                <a-divider dashed type="horizontal"/>
             </div>
         </div>
-
+        <a @click="addAnimationTest">动画小车</a>
+        <a @click="addSkimmer">加载蛋分</a>
+        <a @click="addAdvancedMaterial">心脏 AdvancedMaterial</a>
+        <a @click="makeMeshPoint">点集显示</a>
+        <a @click="makeMeshLine">线集显示</a>
     </div>
 </template>
 
@@ -65,6 +69,25 @@ export default {
         }
     },
     methods: {
+        makeMeshPoint() {
+            window.app3D.makeMeshPoint.start();
+        },
+        makeMeshLine() {
+            window.app3D.makeMeshLine.start();
+        },
+        addAdvancedMaterial() {
+            window.app3D.advancedMaterial.add();
+        },
+        addAnimationTest() {
+            const mesh = serverAdress + "/3Dstatic/model3D/警车/警车/obj/policeCar.obj";
+            const times = [0, 5, 10];
+            const positions = [-164, 87, -0.9, -71, 87, 6.9, -71, 87, 109];
+            window.app3D.animation.start(mesh, times, positions);
+        },
+        addSkimmer() {
+            const mesh = serverAdress + "/3Dstatic/model3D/蛋分/SimLab_2022-10-20-15-40-52.obj";
+            window.app3D.objLoaders.loadOBJ(mesh, "蛋分");
+        },
         dragstart(item, event) {
 
         },
@@ -111,6 +134,7 @@ export default {
     height: calc(100vh - 50px);
     border: solid #99A1A9 1px;
     color: #7DD3CA;
+    overflow-y: scroll;
 
     #models {
         height: 500px;

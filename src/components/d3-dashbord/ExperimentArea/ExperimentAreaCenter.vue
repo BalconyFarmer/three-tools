@@ -23,21 +23,17 @@
 
                 <a-switch default-checked:false size="small" @change="casterMeshChange" />
                 <el-button size="mini" @click="toggleShadow">阴影</el-button>
-
+                <a-dropdown>
+                    <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                        文件管理
+                        <a-icon type="down" />
+                    </a>
+                    <a-menu slot="overlay">
+                        <a-menu-item @click="exportMesh">导出Mesh</a-menu-item>
+                        <a-menu-item @click="importMesh">导入Mesh</a-menu-item>
+                    </a-menu>
+                </a-dropdown>
             </div>
-        </div>
-
-        <div id="file">
-            <a-dropdown>
-                <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                    文件管理
-                    <a-icon type="down" />
-                </a>
-                <a-menu slot="overlay">
-                    <a-menu-item @click="exportMesh">导出Mesh</a-menu-item>
-                    <a-menu-item @click="importMesh">导入Mesh</a-menu-item>
-                </a-menu>
-            </a-dropdown>
         </div>
     </div>
 </template>
@@ -232,9 +228,9 @@ export default {
 #centerContainer {
     #centerTool {
         position: absolute;
-        width: 300px;
+        width: 500px;
         height: auto;
-        top: 60px;
+        top: 10px;
         left: calc(100vw / 2 - 150px);
         border: solid #99a1a9 1px;
 
