@@ -60,7 +60,7 @@ export default {
         }
     },
     mounted() {
-        this.$router.push({path: '/goDigitalCity'}).catch(error => error)
+        this.$router.push({path: '/experimentArea'}).catch(error => error)
         $hub.on("loadedProcess", data => {
             this.loadNum = data
         })
