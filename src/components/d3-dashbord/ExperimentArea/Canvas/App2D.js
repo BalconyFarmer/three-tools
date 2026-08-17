@@ -1,5 +1,5 @@
 import easeljs from 'createjs-cmd';
-import {serverAdress} from '@/config';
+import { serverAdress } from '@/config';
 
 /**
  * easel examples
@@ -31,20 +31,20 @@ export class App2D {
     initStage() {
         const self = this
         // setTimeout(function (){
-            self._canvasDom = document.createElement('canvas')
-            self._canvasDom.id = "easelCanvasIdVirtual"
-            self._canvasDom.width = 500
-            self._canvasDom.height = 500
-            // self._canvasDom.style.display = 'none'
-            const containerDiv = document.getElementById(self.canvasContainer)
-            if (containerDiv) {
-                containerDiv.appendChild(self._canvasDom)
-            } else {
-                const containerDiv = document.createElement('div')
-                containerDiv.appendChild(self._canvasDom)
-                // document.body.appendChild(containerDiv)
-            }
-            self.stage = new easeljs.Stage('easelCanvasIdVirtual')
+        self._canvasDom = document.createElement('canvas')
+        self._canvasDom.id = "easelCanvasIdVirtual"
+        self._canvasDom.width = 500
+        self._canvasDom.height = 500
+        // self._canvasDom.style.display = 'none'
+        const containerDiv = document.getElementById(self.canvasContainer)
+        if (containerDiv) {
+            containerDiv.appendChild(self._canvasDom)
+        } else {
+            const containerDiv = document.createElement('div')
+            containerDiv.appendChild(self._canvasDom)
+            // document.body.appendChild(containerDiv)
+        }
+        self.stage = new easeljs.Stage('easelCanvasIdVirtual')
         // },500)
 
 

@@ -1,4 +1,4 @@
 // const serverAdress = 'http://localhost:8888'
-const serverAdress = 'http://47.108.186.214:8082/Files/3DEditor'
+const serverAdress = 'http://localhost:8082/Files/3DEditor' // docker nginx 本地静态资源地址
 
-export {serverAdress}
+export { serverAdress }
